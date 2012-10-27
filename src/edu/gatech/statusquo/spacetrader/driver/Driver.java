@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,7 +25,7 @@ public class Driver {
     static ArrayList<Integer> totalSkills;
     ArrayList<Integer> partySkills;
     static Random rand;
-    private static Map<Integer, Integer> xAndYCoordinates = new HashMap<Integer, Integer>();
+    public static ArrayList<Point> xAndYCoordinates;
     public static ArrayList<String> listOfNames;
 
     private static ArrayList<SolarSystem> listOfSystems;
@@ -35,6 +34,7 @@ public class Driver {
 	rand = new Random();
 	player = new Player();
 	listOfSystems = new ArrayList<SolarSystem>();
+	xAndYCoordinates = new ArrayList<Point>();
 	generateUniverse();
     }
 
@@ -103,19 +103,14 @@ public class Driver {
     public static void generateUniverse() throws IOException {
 	generateCoordinates();
 	generateNames();
-	Iterator<Integer> it = xAndYCoordinates.keySet().iterator();
-	while (it.hasNext()) {
-	    for (int i = 0; i < xAndYCoordinates.size(); i++) {
-		Planet planetName = new Planet(listOfNames.get(i));
-		int xCoordinate = it.next();
-		SolarSystem system = new SolarSystem(listOfNames.get(i),
-			planetName, rand.nextInt(8), rand.nextInt(11),
-			xCoordinate, xAndYCoordinates.get(xCoordinate));
-		generateMarket(system);
-		System.out.println(system);
-		System.out.println(xAndYCoordinates.size());
-		listOfSystems.add(system);
-	    }
+	for (int i = 0; i < listOfNames.size(); i++) 
+	{
+	    SolarSystem system = new SolarSystem(listOfNames.get(i),
+		    new Planet(listOfNames.get(i)), rand.nextInt(8), rand.nextInt(11),
+		    xAndYCoordinates.get(i).getXcoord(), xAndYCoordinates.get(i).getYcoord());
+	    generateMarket(system);
+	    System.out.println(system);
+	    listOfSystems.add(system);
 	}
     }
 
@@ -127,29 +122,28 @@ public class Driver {
      * Creates list of usable X and Y coordinates for solar systems. That are at
      * least 10 units away from any other coordinate.
      */
-    public static void generateCoordinates() {
-	xAndYCoordinates.put(0, 0);
-	while (xAndYCoordinates.size() != 150) 
+    public static void generateCoordinates() 
+    {
+	xAndYCoordinates.add(new Point(0, 0));
+	while (xAndYCoordinates.size() < 150)
 	{
+	    boolean validPoint = true;
 	    int testX = (rand.nextInt(201));
 	    int testY = (rand.nextInt(201));
-    	    Iterator<Integer> it = xAndYCoordinates.keySet().iterator();
-    	    while (it.hasNext()) 
-    	    {
-    		int testCoordinateX = it.next();
-    		int testCoordinateY = xAndYCoordinates.get(testCoordinateX);
-    		if (testX != testCoordinateX) 
-    		{
-    		    if ((Math.sqrt(Math.pow((testCoordinateX - testX), 2.0)
-    			    + Math.pow((testCoordinateY - testY), 2.0))) > 10.0) 
-    		    {
-    			xAndYCoordinates.put(testX, testY);
-    		    }
-    		}
-    	    }
+	    for (int i = 0; i < xAndYCoordinates.size(); i++)
+	    {
+		Point testPoint = xAndYCoordinates.get(i);
+		if ((Math.sqrt(Math.pow((testPoint.getXcoord() - testX), 2.0)
+			    + Math.pow((testPoint.getYcoord() - testY), 2.0))) < 10.0) 
+		    {
+		    	validPoint = false;
+		    }
+		
+	    }
+	    if(validPoint)
+		xAndYCoordinates.add(new Point(testX, testY));
 	}
     }
-
     /**
      * Gets the entire party's skills.
      * 

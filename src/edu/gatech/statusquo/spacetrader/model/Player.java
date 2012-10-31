@@ -1,25 +1,40 @@
 package edu.gatech.statusquo.spacetrader.model;
 
+import java.util.HashMap;
+
 import edu.gatech.statusquo.spacetrader.model.Ship.ShipType;
+import edu.gatech.statusquo.spacetrader.presenter.NotificationsPresenter;
+import edu.gatech.statusquo.spacetrader.view.NotificationsView;
 
 public class Player {
 
-	private Ship.ShipType ship;
+	private Ship ship;
 	private static String name;
-	private static int currency;
+	private static double currency;
 	private static int trader;
 	private static int engineer;
 	private static int pilot;
 	private static int fighter;
+	private HashMap<String, Integer> cargo;
 
 	public Player() {
-		ship = ShipType.GNAT;
+		ship = new Ship(ShipType.GNAT);
 		name = "Player";
-		currency = 1000;
+		currency = 100000000;
 		trader = 0;
 		engineer = 0;
 		pilot = 0;
 		fighter = 0;
+		cargo = new HashMap<String, Integer>();
+		cargo.put("Water", 0);
+		cargo.put("Furs", 0);
+		cargo.put("Food", 0);
+		cargo.put("Ore", 0);
+		cargo.put("Firearms", 0);
+		cargo.put("Medicine", 0);
+		cargo.put("Machines", 0);
+		cargo.put("Narcotics", 0);
+		cargo.put("Robots", 0);
 	}
 
 	/**
@@ -28,7 +43,7 @@ public class Player {
 	 * @param sh
 	 *            the ship type.
 	 */
-	public void setShip(ShipType sh) {
+	public void setShip(Ship sh) {
 		ship = sh;
 	}
 
@@ -37,7 +52,7 @@ public class Player {
 	 * 
 	 * @return the ship type.
 	 */
-	public ShipType getShip() {
+	public Ship getShip() {
 		return ship;
 	}
 
@@ -46,7 +61,7 @@ public class Player {
 	 * 
 	 * @return an integer that is the amount of currency.
 	 */
-	public static int getCurrency() {
+	public static double getCurrency() {
 		return currency;
 	}
 
@@ -55,7 +70,7 @@ public class Player {
 	 * 
 	 * @param curr an integer that is the amount of money.
 	 */
-	public void setCurrency(int curr) {
+	public void setCurrency(double curr) {
 		currency = curr;
 	}
 
@@ -108,5 +123,37 @@ public class Player {
 	
 	public static int getFighterSkills() {
 		return fighter;
+	}
+
+	public HashMap<String, Integer> getCargo() {
+	    return cargo;
+	}
+
+	public void insertCargo(String s, Integer i) {
+	    if (cargoSize() < ship.cargoSize)
+	    {
+		cargo.put(s, i);
+	    }
+	    else
+	    {
+		NotificationsPresenter.addToList("You do not have enough space in your cargo.");
+	    }
+	}
+
+	public int cargoSize() {
+	    int size = 0;
+	    for (int j = 0; j < cargo.size(); j++)
+	    {
+		size += cargo.get("Water");
+		size += cargo.get("Furs");
+		size += cargo.get("Food");
+		size += cargo.get("Ore");
+		size += cargo.get("Firearms");
+		size += cargo.get("Medicine");
+		size += cargo.get("Machines");
+		size += cargo.get("Narcotics");
+		size += cargo.get("Robots");
+	    }
+	    return size;
 	}
 }

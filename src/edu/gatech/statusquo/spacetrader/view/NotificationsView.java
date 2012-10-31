@@ -5,13 +5,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 
+import edu.gatech.statusquo.spacetrader.driver.Driver;
 import edu.gatech.statusquo.spacetrader.model.*;
 
 public class NotificationsView {
 	Shell shell;
+	
+	public List getList_1() {
+	    return list_1;
+	}
+
 	Player player;
 	Label lblNotifications;
-	public static List list_1;
+	public List list_1;
 	
 	public NotificationsView(Shell s, Player p) {
 		this.shell = s;
@@ -31,6 +37,5 @@ public class NotificationsView {
 		lblNotifications.setText("Notifications");
 		
 		list_1.setBounds(196, 628, 653, 96);
-		list_1.add("Welcome to Space Trader " + Player.getName());
 	}
 }

@@ -60,7 +60,7 @@ public class VitalsView {
 		tblclmnWeight.setWidth(69);
 		tblclmnWeight.setText("Fuel");
 
-		tableItem.setText(Integer.toString(Player.getCurrency()));
+		tableItem.setText(Double.toString(Player.getCurrency()));
 
 		table_3.setBounds(855, 119, 143, 480);
 		table_3.setHeaderVisible(true);

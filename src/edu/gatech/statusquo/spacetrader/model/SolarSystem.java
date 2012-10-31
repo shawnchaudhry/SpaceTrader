@@ -1,19 +1,17 @@
 package edu.gatech.statusquo.spacetrader.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import edu.gatech.statusquo.spacetrader.model.Good.GoodType;
 
 public class SolarSystem {
 
-	private static String systemName;
-	private static int techLevel;
-	private static int resourceLevel;
-	private static int xLocation;
-	private static int yLocation;
-	private static Planet planet;
-	private static HashMap<GoodType, ArrayList<GoodType>> market;
+	private  String systemName;
+	private int techLevel;
+	private int resourceLevel;
+	private int xLocation;
+	private int yLocation;
+	private Point location;
+	private Planet planet;
+	private HashMap<String, Good> market;
 	
 	/**
 	 * Class constructor using listed parameters
@@ -27,25 +25,42 @@ public class SolarSystem {
 	public SolarSystem(String systemName, Planet planet, int techLevel,
 			int resourceLevel, int xLocation, int yLocation) {
 
-		SolarSystem.systemName = systemName;
-		SolarSystem.planet = planet;
-		SolarSystem.techLevel = techLevel;
-		SolarSystem.resourceLevel = resourceLevel;
-		SolarSystem.xLocation = xLocation;
-		SolarSystem.yLocation = yLocation;
-		market = new HashMap<Good.GoodType, ArrayList<Good.GoodType>>();
-		GoodType[] keys = GoodType.values();
-		for (GoodType g: keys) {
-			market.put(g, new ArrayList<GoodType>());
-		}
+		this.systemName = systemName;
+		this.planet = planet;
+		this.techLevel = techLevel;
+		this.resourceLevel = resourceLevel;
+		this.xLocation = xLocation;
+		this.yLocation = yLocation;
+		this.location = new Point(xLocation, yLocation);
+		market = new HashMap<String, Good>();
 	}
 	
-	public HashMap<GoodType, ArrayList<GoodType>> getMarket() {
+	public int getTechLevel() {
+	    return techLevel;
+	}
+
+	public void setTechLevel(int techLevel) {
+	    this.techLevel = techLevel;
+	}
+
+	public int getResourceLevel() {
+	    return resourceLevel;
+	}
+
+	public void setResourceLevel(int resourceLevel) {
+	    this.resourceLevel = resourceLevel;
+	}
+
+	public String getSystemName() {
+	    return systemName;
+	}
+
+	public HashMap<String, Good> getMarket() {
 		return market;
 	}
 	
-	public void setMarket(HashMap<GoodType, ArrayList<GoodType>> hm) {
-		market = hm;
+	public void setMarket(HashMap<String, Good> marketPlace) {
+		market = marketPlace;
 	}
 
 	/**
@@ -56,5 +71,10 @@ public class SolarSystem {
 				+ "TechLevel: " + techLevel + "\n" + "ResourceLevel: "
 				+ resourceLevel + "\n" + "X-Position: " + xLocation + "\n"
 				+ "Y-Position: " + yLocation + "\n");
+	}
+	
+	public Point getCoordinates()
+	{
+	    return location;
 	}
 }

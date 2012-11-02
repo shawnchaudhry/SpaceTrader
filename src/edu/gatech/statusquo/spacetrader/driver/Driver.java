@@ -16,16 +16,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 public class Driver {
-    public static Player player;
+    public Player player;
     public Display display;
     public Shell shell;
-    public static int currency = 1000;
-    static ArrayList<Integer> totalSkills;
+    public int currency = 1000;
+    ArrayList<Integer> totalSkills;
     ArrayList<Integer> partySkills;
-    static Random rand;
-    public static ArrayList<Point> xAndYCoordinates;
-    public static ArrayList<String> listOfNames;
-    public static HashMap<String, Good> marketPlace;
+    Random rand;
+    public ArrayList<Point> xAndYCoordinates;
+    public ArrayList<String> listOfNames;
+    public HashMap<String, Good> marketPlace;
     public Point currentLocation;
     public ShipStatisticsView shipStatisticsView;
     public TeamStatisticsView teamStatisticsView;
@@ -34,6 +34,14 @@ public class Driver {
     public NotificationsView notificationsView;
     public VitalsView vitalsView;
     public LocalPlanetView localPlanetView;
+    public ShipStatisticsPresenter shipStatisticsPresenter;
+    public TeamStatisticsPresenter teamStatisticsPresenter;
+    public SolarSystemListPresenter solarSystemListPresenter;
+    public TradeGoodsPresenter tradeGoodsPresenter;
+    public NotificationsPresenter notificationsPresenter;
+    public VitalsPresenter vitalsPresenter;
+    public LocalPlanetPresenter localPlanetPresenter;
+    
     
     public static ArrayList<SolarSystem> listOfSystems;
 
@@ -75,27 +83,27 @@ public class Driver {
 	currentLocation = new Point(0, 0);
 	
 	shipStatisticsView = new ShipStatisticsView(shell);
-	new ShipStatisticsPresenter(shell, this, shipStatisticsView);
+	shipStatisticsPresenter = new ShipStatisticsPresenter(shell, this, shipStatisticsView);
 
 	teamStatisticsView = new TeamStatisticsView(shell,
 		player);
-	new TeamStatisticsPresenter(shell, this, teamStatisticsView);
+	teamStatisticsPresenter = new TeamStatisticsPresenter(shell, this, teamStatisticsView);
 
 	solarSystemListView = new SolarSystemListView(shell);
-	new SolarSystemListPresenter(shell, this, solarSystemListView);
+	solarSystemListPresenter = new SolarSystemListPresenter(shell, this, solarSystemListView);
 
 	tradeGoodsView = new TradeGoodsView(shell);
-	new TradeGoodsPresenter(shell, this, tradeGoodsView);
+	tradeGoodsPresenter = new TradeGoodsPresenter(shell, this, tradeGoodsView);
 
 	notificationsView = new NotificationsView(shell,
 		player);
-	new NotificationsPresenter(shell, this, notificationsView);
+	notificationsPresenter = new NotificationsPresenter(shell, this, notificationsView);
 
 	vitalsView = new VitalsView(shell, player);
-	new VitalsPresenter(shell, this, vitalsView);
+	vitalsPresenter = new VitalsPresenter(shell, this, vitalsView);
 
 	localPlanetView = new LocalPlanetView(shell);
-	new LocalPlanetPresenter(shell, this, localPlanetView);
+	localPlanetPresenter = new LocalPlanetPresenter(shell, this, localPlanetView);
 
 	while (!shell.isDisposed()) {
 	    if (!display.readAndDispatch()) {
@@ -233,16 +241,17 @@ public class Driver {
         	default:
         	    break;
 	}
-	marketPlace.put("Water", new Good(30, 100 * waterCoeff));
-	marketPlace.put("Furs", new Good(250, 100 * furCoeff));
-	marketPlace.put("Food", new Good(100, 100 * foodCoeff));
-	marketPlace.put("Ore", new Good(350, 100 * oreCoeff));
-	marketPlace.put("Games", new Good(250, 100 * gamesCoeff));
-	marketPlace.put("Firearms", new Good(1250, 100 * firearmsCoeff));
-	marketPlace.put("Medicine", new Good(650, 100 * medicineCoeff));
-	marketPlace.put("Machines", new Good(900, 100 * machinesCoeff));
-	marketPlace.put("Narcotics", new Good(3500, 100 * narcoticsCoeff));
-	marketPlace.put("Robots", new Good(5000, 100 * robotsCoeff));
+	marketPlace.put("Water", new Good(30 * waterCoeff, 100));
+	marketPlace.put("Furs", new Good(250 * furCoeff, 100));
+	marketPlace.put("Food", new Good(100 * foodCoeff, 100));
+	marketPlace.put("Ore", new Good(350 * oreCoeff, 100));
+	marketPlace.put("Games", new Good(250 * gamesCoeff, 100));
+	marketPlace.put("Firearms", new Good(1250 * firearmsCoeff, 100));
+	marketPlace.put("Medicine", new Good(650 * medicineCoeff, 100));
+	marketPlace.put("Machines", new Good(900 * machinesCoeff, 100));
+	marketPlace.put("Narcotics", new Good(3500 * narcoticsCoeff, 100));
+	marketPlace.put("Robots", new Good(5000 * robotsCoeff, 100));
+	marketPlace.put("Fuel", new Good(10, 100));
 	s.setMarket(marketPlace);
     }
 
@@ -250,7 +259,7 @@ public class Driver {
      * Creates list of usable X and Y coordinates for solar systems. That are at
      * least 10 units away from any other coordinate.
      */
-    public static void generateCoordinates() 
+    public void generateCoordinates() 
     {
 	xAndYCoordinates.add(new Point(0, 0));
 	while (xAndYCoordinates.size() < 150)
@@ -300,7 +309,7 @@ public class Driver {
 	for (int i = 0; i < boostPoints.length; i++) {
 	    newTotalSkills.add(totalSkills.get(i) + boostPoints[i]);
 	}
-	totalSkills = newTotalSkills;
+		totalSkills = newTotalSkills;
     }
 
     /**
@@ -319,13 +328,15 @@ public class Driver {
 	int amtOfStrings = 150;
 	for (int i = 0; i < amtOfStrings; i++) {
 	    boolean check = true;
-	    while (check == true) {
-		int random = (rand.nextInt(planetNames.size()));
-		String hold = planetNames.get(random);
-		if (chosenNames.contains(hold) == false) {
-		    chosenNames.add(hold);
-		    check = false;
-		}
+	    while (check == true) 
+	    {
+			int random = (rand.nextInt(planetNames.size()));
+			String hold = planetNames.get(random);
+			if (chosenNames.contains(hold) == false) 
+			{
+			    chosenNames.add(hold);
+			    check = false;
+			}
 	    }
 	}
 	listOfNames = chosenNames;
@@ -353,22 +364,22 @@ public class Driver {
 		return listOfSystems.get(i);
 	    }
 	}
-	return null;
+		return null;
     }
     
     public SolarSystem retrieveSelectedSolarSystem()
     {
-	return getByName(solarSystemListView.table_5.getSelection()[0].getText(0));
+    	return getByName(solarSystemListView.table_5.getSelection()[0].getText(0));
     }
     
     public Point getCurrentLocation()
     {
-	return currentLocation;
+    	return currentLocation;
     }
     
     public double calculateDist(Point p)
     {
-	return Math.sqrt(Math.pow((p.getXcoord() - currentLocation.getXcoord()), 2.0)
+    	return Math.sqrt(Math.pow((p.getXcoord() - currentLocation.getXcoord()), 2.0)
 		    + Math.pow((p.getYcoord() - currentLocation.getYcoord()), 2.0));
     }
 }

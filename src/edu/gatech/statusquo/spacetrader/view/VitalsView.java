@@ -20,7 +20,6 @@ public class VitalsView {
 	TableCursor tableCursor_2;
 	TableItem tableItem;
 	Table table_3;
-	TableCursor tableCursor_3;
 	TableColumn tblclmnCargo;
 	TableColumn tblclmnWeight_1;
 	
@@ -34,7 +33,6 @@ public class VitalsView {
 		tableCursor_2 = new TableCursor(table_2, SWT.NONE);
 		tableItem = new TableItem(table_2, SWT.NONE);
 		table_3 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		tableCursor_3 = new TableCursor(table_3, SWT.NONE);
 		tblclmnCargo = new TableColumn(table_3, SWT.CENTER);
 		tblclmnWeight_1 = new TableColumn(table_3, SWT.CENTER);
 		
@@ -59,9 +57,8 @@ public class VitalsView {
 
 		tblclmnWeight.setWidth(69);
 		tblclmnWeight.setText("Fuel");
-
-		tableItem.setText(Double.toString(Player.getCurrency()));
-
+		String[] vitals = {Double.toString(Player.getCurrency()), Integer.toString(Player.getFuel())};
+		tableItem.setText(vitals);
 		table_3.setBounds(855, 119, 143, 480);
 		table_3.setHeaderVisible(true);
 		table_3.setLinesVisible(true);
@@ -72,5 +69,10 @@ public class VitalsView {
 
 		tblclmnWeight_1.setWidth(71);
 		tblclmnWeight_1.setText("Weight");
+	}
+	
+	public void updateFuel()
+	{
+		
 	}
 }

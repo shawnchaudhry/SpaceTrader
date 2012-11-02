@@ -3,8 +3,6 @@ package edu.gatech.statusquo.spacetrader.model;
 import java.util.HashMap;
 
 import edu.gatech.statusquo.spacetrader.model.Ship.ShipType;
-import edu.gatech.statusquo.spacetrader.presenter.NotificationsPresenter;
-import edu.gatech.statusquo.spacetrader.view.NotificationsView;
 
 public class Player {
 
@@ -16,9 +14,11 @@ public class Player {
 	private static int pilot;
 	private static int fighter;
 	private HashMap<String, Integer> cargo;
+	private static int fuel;
 
 	public Player() {
 		ship = new Ship(ShipType.GNAT);
+		fuel = 200;
 		name = "Player";
 		currency = 100000000;
 		trader = 0;
@@ -130,20 +130,11 @@ public class Player {
 	}
 
 	public void insertCargo(String s, Integer i) {
-	    if (cargoSize() < ship.cargoSize)
-	    {
-		cargo.put(s, i);
-	    }
-	    else
-	    {
-		NotificationsPresenter.addToList("You do not have enough space in your cargo.");
-	    }
+	    	cargo.put(s, i);
 	}
 
 	public int cargoSize() {
 	    int size = 0;
-	    for (int j = 0; j < cargo.size(); j++)
-	    {
 		size += cargo.get("Water");
 		size += cargo.get("Furs");
 		size += cargo.get("Food");
@@ -153,7 +144,10 @@ public class Player {
 		size += cargo.get("Machines");
 		size += cargo.get("Narcotics");
 		size += cargo.get("Robots");
-	    }
 	    return size;
+	}
+
+	public static int getFuel() {
+		return fuel;
 	}
 }

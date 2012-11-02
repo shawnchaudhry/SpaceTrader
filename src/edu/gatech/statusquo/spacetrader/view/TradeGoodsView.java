@@ -1,9 +1,6 @@
 package edu.gatech.statusquo.spacetrader.view;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableCursor;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -11,9 +8,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-
-import edu.gatech.statusquo.spacetrader.model.Player;
-import edu.gatech.statusquo.spacetrader.model.SolarSystem;
 
 public class TradeGoodsView {
     Shell shell;
@@ -27,6 +21,7 @@ public class TradeGoodsView {
     public TableItem machinesItem;
     public TableItem narcoticsItem;
     public TableItem robotsItem;
+	public TableItem fuelItem;
 
     public TableColumn tblclmnItems;
     public TableColumn tblclmnPrice;
@@ -35,6 +30,7 @@ public class TradeGoodsView {
     public Text text;
     public Text text_1;
     public Button btnBuy;
+    public Button btnSell;
 
     public TradeGoodsView(Shell s) {
 	this.shell = s;
@@ -86,38 +82,22 @@ public class TradeGoodsView {
 	machinesItem = new TableItem(table_1, SWT.NONE);
 	narcoticsItem = new TableItem(table_1, SWT.NONE);
 	robotsItem = new TableItem(table_1, SWT.NONE);
-
+	fuelItem = new TableItem(table_1, SWT.NONE);
+	
 	btnBuy = new Button(shell, SWT.NONE);
 	btnBuy.setBounds(348, 554, 75, 25);
 	btnBuy.setText("Buy");
 
-	Button btnSell = new Button(shell, SWT.NONE);
+	btnSell = new Button(shell, SWT.NONE);
 	btnSell.setBounds(630, 554, 75, 25);
 	btnSell.setText("Sell");
 
 	text = new Text(shell, SWT.BORDER);
 	text.setText("Enter Qty");
-	text.addMouseListener(new MouseAdapter() {
-	    @Override
-	    public void mouseDown(MouseEvent e) {
-		text.setText("");
-	    }
-	});
 	text.setBounds(266, 558, 76, 21);
 
 	text_1 = new Text(shell, SWT.BORDER);
 	text_1.setText("Enter Qty");
-	text_1.addMouseListener(new MouseAdapter() {
-	    @Override
-	    public void mouseDown(MouseEvent e) {
-		text_1.setText("");
-	    }
-	});
 	text_1.setBounds(548, 558, 76, 21);
-    }
-    
-    public void updateMarketView(SolarSystem s)
-    {
-	s.getMarket();
     }
 }

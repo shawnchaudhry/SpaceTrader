@@ -1,6 +1,6 @@
 package edu.gatech.statusquo.spacetrader.model;
 
-public class Point implements Comparable {
+public class Point implements Comparable<Point> {
     private int xcoord;
     private int ycoord;
     
@@ -27,8 +27,7 @@ public class Point implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-	Point other = (Point) o;
+    public int compareTo(Point other) {
 	if(this.xcoord == other.xcoord && this.ycoord == other.ycoord)
 	{
 	    return 0;

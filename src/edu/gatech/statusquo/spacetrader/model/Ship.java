@@ -1,10 +1,9 @@
 package edu.gatech.statusquo.spacetrader.model;
 
-import edu.gatech.statusquo.spacetrader.driver.Driver;
-
 public class Ship {
     ShipType type;
-    int cargoSize;
+    public int capacity;
+    public int fuelCapacity;
     SolarSystem location;
     
     public enum ShipType {
@@ -17,15 +16,20 @@ public class Ship {
 	switch(t)
 	{
 	case FLEA:
-	    cargoSize = 10;
+	    capacity = 10;
+	    fuelCapacity = 100;
 	case GNAT:
-	    cargoSize = 15;
+	    capacity = 15;
+	    fuelCapacity = 200;
 	case FIREFLY:
-	    cargoSize = 20;
+	    capacity = 20;
+	    fuelCapacity = 300;
 	case MOSQUITO:
-	    cargoSize = 15;
+	    capacity = 15;
+	    fuelCapacity = 400;
 	case BUMBLEBEE:
-	    cargoSize = 25;
+	    capacity = 25;
+	    fuelCapacity = 500;
 	}
     }
 }

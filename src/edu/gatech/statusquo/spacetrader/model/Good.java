@@ -20,7 +20,7 @@ public class Good {
      * @param leg
      *            - legality
      */
-    public Good(int qty, double p) {
+    public Good(double p, int qty) {
 	quantity = qty;
 	price = p;
 

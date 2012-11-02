@@ -21,18 +21,20 @@ public class SolarSystemListPresenter {
 		this.driver = d;
 		this.solarSystemListView = sslv;
 		setTable();
+		setListeners();
 		selected = driver.getByName(solarSystemListView.table_5.getItem(0).getText());
 	}
 	
 	private void setTable() {
 	    for (int i = 0; i < Driver.listOfSystems.size(); i++)
 	    {
-		System.out.println(Driver.listOfSystems.get(i).toString());
-		double distance = driver.calculateDist(Driver.listOfSystems.get(i).getCoordinates());
-		DecimalFormat df = new DecimalFormat("#.##");
-		String[] nameAndDist = {Driver.listOfSystems.get(i).getSystemName(), df.format(distance)};
-		solarSystemListView.tableItems[i].setText(nameAndDist);
+			System.out.println(Driver.listOfSystems.get(i).toString());
+			double distance = driver.calculateDist(Driver.listOfSystems.get(i).getCoordinates());
+			DecimalFormat df = new DecimalFormat("#.##");
+			String[] nameAndDist = {Driver.listOfSystems.get(i).getSystemName(), df.format(distance)};
+			solarSystemListView.tableItems[i].setText(nameAndDist);
 	    }
+	    
 	}
 
 	public void setListeners()
@@ -40,7 +42,11 @@ public class SolarSystemListPresenter {
 	    solarSystemListView.btnTravel.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseUp(MouseEvent e) {
-		    selected = driver.getByName(solarSystemListView.table_5.getItem(0).getText(solarSystemListView.table_5.getSelectionIndex()));
+		    selected = driver.getByName(solarSystemListView.table_5.getSelection()[0].getText(0));
+		    driver.tradeGoodsPresenter.updateMarketView(selected);
+		    driver.currentLocation = selected.getCoordinates();
+		    driver.notificationsPresenter.addToList("You have arrived at " + selected.getSystemName());
+		    
 		}
 	});
 	}

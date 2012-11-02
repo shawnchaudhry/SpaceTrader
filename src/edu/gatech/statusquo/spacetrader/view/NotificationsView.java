@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 
-import edu.gatech.statusquo.spacetrader.driver.Driver;
 import edu.gatech.statusquo.spacetrader.model.*;
 
 public class NotificationsView {

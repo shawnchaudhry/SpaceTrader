@@ -10,7 +10,7 @@ public class NotificationsPresenter {
 
 	Shell shell;
 	Driver driver;
-	public static NotificationsView notificationsView;
+	public NotificationsView notificationsView;
 
 	public NotificationsPresenter(Shell s, Driver d, NotificationsView nv) {
 		this.shell = s;
@@ -25,7 +25,7 @@ public class NotificationsPresenter {
 	    notificationsView.list_1.add("You are currently in " + driver.getByCoordinate(driver.getCurrentLocation()).getSystemName());
 	}
 	
-	public static void addToList(String s)
+	public void addToList(String s)
 	{
 	    notificationsView.list_1.add(s);
 	}

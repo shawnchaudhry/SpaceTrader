@@ -77,4 +77,9 @@ public class SolarSystem {
 	{
 	    return location;
 	}
+
+	public void setMarketItem(String s, Good n) {
+		// TODO Auto-generated method stub
+		market.put(s, n);
+	}
 }

@@ -18,8 +18,8 @@ public class VitalsView {
 	TableColumn tblclmnCurrency;
 	TableColumn tblclmnWeight;
 	TableCursor tableCursor_2;
-	TableItem tableItem;
-	Table table_3;
+	public TableItem tableItem;
+	public Table table_3;
 	TableColumn tblclmnCargo;
 	TableColumn tblclmnWeight_1;
 	
@@ -57,8 +57,7 @@ public class VitalsView {
 
 		tblclmnWeight.setWidth(69);
 		tblclmnWeight.setText("Fuel");
-		String[] vitals = {Double.toString(Player.getCurrency()), Integer.toString(Player.getFuel())};
-		tableItem.setText(vitals);
+		
 		table_3.setBounds(855, 119, 143, 480);
 		table_3.setHeaderVisible(true);
 		table_3.setLinesVisible(true);
@@ -69,10 +68,5 @@ public class VitalsView {
 
 		tblclmnWeight_1.setWidth(71);
 		tblclmnWeight_1.setText("Weight");
-	}
-	
-	public void updateFuel()
-	{
-		
 	}
 }

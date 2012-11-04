@@ -14,7 +14,7 @@ public class Player {
 	private static int pilot;
 	private static int fighter;
 	private HashMap<String, Integer> cargo;
-	private static int fuel;
+	private static double fuel;
 
 	public Player() {
 		ship = new Ship(ShipType.GNAT);
@@ -147,7 +147,12 @@ public class Player {
 	    return size;
 	}
 
-	public static int getFuel() {
+	public static double getFuel() {
 		return fuel;
+	}
+	
+	public static void setFuel(double d)
+	{
+		fuel = d;
 	}
 }

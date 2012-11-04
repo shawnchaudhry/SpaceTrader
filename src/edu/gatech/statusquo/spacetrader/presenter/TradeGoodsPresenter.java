@@ -92,17 +92,17 @@ public class TradeGoodsPresenter {
 								Integer.toString(previousAmt
 										- Integer.parseInt(tradeGoodsView.text
 												.getText())));
-						driver.getByCoordinate(driver.getCurrentLocation())
+						driver.getByCoordinate(Driver.getCurrentLocation())
 								.getMarket()
 								.put((tradeGoodsView.table_1.getSelection()[0]
 										.getText(0)),
 										driver.getByCoordinate(
-												driver.getCurrentLocation())
+												Driver.getCurrentLocation())
 												.getMarket()
 												.get((tradeGoodsView.table_1
 														.getSelection()[0]
 														.getText(0))));
-						driver.getByCoordinate(driver.getCurrentLocation())
+						driver.getByCoordinate(Driver.getCurrentLocation())
 								.setMarketItem(
 										tradeGoodsView.table_1.getSelection()[0]
 												.getText(0),
@@ -116,7 +116,7 @@ public class TradeGoodsPresenter {
 																		.getText())));
 						tradeGoodsView.table_1
 								.getSelection()[0].setText(1, Double.toString(driver
-								.getByCoordinate(driver.getCurrentLocation())
+								.getByCoordinate(Driver.getCurrentLocation())
 								.getMarket().get(tradeGoodsView.table_1
 										.getSelection()[0].getText(0)).getPrice()));
 					}
@@ -201,7 +201,7 @@ public class TradeGoodsPresenter {
 		
 		String[] fuel = { "Fuel",
 				Double.toString(market.get("Fuel").getPrice()),
-				Integer.toString(driver.player.getFuel()),
+				Double.toString(Player.getFuel()),
 				Integer.toString(market.get("Fuel").getQuantity()) };
 		tradeGoodsView.fuelItem.setText(fuel);
 		}

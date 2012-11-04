@@ -1,5 +1,6 @@
 package edu.gatech.statusquo.spacetrader.driver;
 
+import edu.gatech.statusquo.spacetrader.comparator.SolarSystemComparator;
 import edu.gatech.statusquo.spacetrader.model.*;
 import edu.gatech.statusquo.spacetrader.presenter.*;
 import edu.gatech.statusquo.spacetrader.view.*;
@@ -7,6 +8,7 @@ import edu.gatech.statusquo.spacetrader.view.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class Driver {
     public ArrayList<Point> xAndYCoordinates;
     public ArrayList<String> listOfNames;
     public HashMap<String, Good> marketPlace;
-    public Point currentLocation;
+    public static Point currentLocation;
     public ShipStatisticsView shipStatisticsView;
     public TeamStatisticsView teamStatisticsView;
     public SolarSystemListView solarSystemListView;
@@ -41,9 +43,10 @@ public class Driver {
     public NotificationsPresenter notificationsPresenter;
     public VitalsPresenter vitalsPresenter;
     public LocalPlanetPresenter localPlanetPresenter;
-    
+	public CreatePlayerPresenter createPlayerPresenter;
     
     public static ArrayList<SolarSystem> listOfSystems;
+	public static WelcomePresenter welcomeViewPresenter;
 
     public Driver() throws IOException {
 	rand = new Random();
@@ -61,12 +64,12 @@ public class Driver {
 	    e.printStackTrace();
 	}
 	WelcomeView welcomeView = new WelcomeView();
-	new WelcomePresenter(driver, welcomeView);
+	welcomeViewPresenter = new WelcomePresenter(driver, welcomeView);
     }
 
     public void generateCreatePlayer() {
 	CreatePlayerView createPlayerView = new CreatePlayerView();
-	new CreatePlayerPresenter(this, createPlayerView, player);
+	createPlayerPresenter = new CreatePlayerPresenter(this, createPlayerView, player);
     }
 
     public void generateMainGame() {
@@ -117,19 +120,26 @@ public class Driver {
      * 
      * @throws IOException
      */
-    public void generateUniverse() throws IOException {
-	generateCoordinates();
-	generateNames();
-	for (int i = 0; i < listOfNames.size(); i++) 
-	{
-	    SolarSystem system = new SolarSystem(listOfNames.get(i),
-		    new Planet(listOfNames.get(i)), rand.nextInt(8), rand.nextInt(11),
-		    xAndYCoordinates.get(i).getXcoord(), xAndYCoordinates.get(i).getYcoord());
-	    generateMarket(system);
-	    listOfSystems.add(system);
-	}
+    public void generateUniverse() throws IOException 
+    {
+		generateCoordinates();
+		generateNames();
+		
+		for (int i = 0; i < listOfNames.size(); i++) 
+		{
+		    SolarSystem system = new SolarSystem(listOfNames.get(i),
+			    new Planet(listOfNames.get(i)), rand.nextInt(8), rand.nextInt(11),
+			    xAndYCoordinates.get(i).getXcoord(), xAndYCoordinates.get(i).getYcoord());
+		    generateMarket(system);
+		    listOfSystems.add(system);
+		}
     }
-
+    
+    public static void sortSolarSystemListSort()
+    {
+    	Collections.sort(listOfSystems, new SolarSystemComparator());
+    }
+    
     public void generateMarket(SolarSystem s) {
 	marketPlace = new HashMap<String, Good>();
 	double waterCoeff = 1;
@@ -142,6 +152,16 @@ public class Driver {
 	double machinesCoeff = 1;
 	double narcoticsCoeff = 1;
 	double robotsCoeff = 1;
+	double waterPriceCoeff = 1;
+	double furPriceCoeff = 1;
+	double foodPriceCoeff = 1;
+	double orePriceCoeff = 1;
+	double gamesPriceCoeff = 1;
+	double firearmsPriceCoeff = 1;
+	double medicinePriceCoeff = 1;
+	double machinesPriceCoeff = 1;
+	double narcoticsPriceCoeff = 1;
+	double robotsPriceCoeff = 1;
 	
 	switch (s.getTechLevel())
 	{
@@ -151,6 +171,10 @@ public class Driver {
 		    machinesCoeff = 0;
 		    robotsCoeff = 0;
 		    medicineCoeff = .8;
+		    firearmsPriceCoeff = 2;
+		    machinesPriceCoeff = 2;
+		    robotsPriceCoeff = 2;
+		    medicinePriceCoeff = 1.5;
 		    break;
 		}
 		case 1:
@@ -159,6 +183,9 @@ public class Driver {
 		    machinesCoeff = 0;
 		    robotsCoeff = 0;
 		    medicineCoeff = .8;
+		    firearmsPriceCoeff = 2;
+		    machinesPriceCoeff = 2;
+		    robotsPriceCoeff = 2;
 		    break;
 		}
 		case 2:
@@ -166,11 +193,14 @@ public class Driver {
 		    machinesCoeff = 0;
 		    robotsCoeff = 0;
 		    medicineCoeff = .8;
+		    machinesPriceCoeff = 2;
+		    robotsPriceCoeff = 2;
 		    break;
 		}
 		case 3:
 		{
 		    robotsCoeff = 0;
+		    robotsPriceCoeff = 2;
 		    break;
 		}
 		default:
@@ -186,11 +216,13 @@ public class Driver {
         	case 1:
         	{
         	    oreCoeff = 2;
+        	    orePriceCoeff = .5;
         	    break;
         	}
         	case 2:
         	{
         	    oreCoeff = .5;
+        	    orePriceCoeff = 1.5;
         	    break;
         	}
         	case 3:
@@ -198,61 +230,74 @@ public class Driver {
         	    waterCoeff = .5;
         	    foodCoeff = .5;
         	    furCoeff = .5;
+        	    waterPriceCoeff = 1.5;
+        	    foodPriceCoeff = 1.5;
+        	    furPriceCoeff = 1.5;
         	    break;
         	}
         	case 4:
         	{
         	    waterCoeff = 2;
+        	    waterPriceCoeff = .5;
         	    break;
         	}
         	case 5:
         	{
         	    foodCoeff = 2;
+        	    foodPriceCoeff = .5;
         	    break;
         	}
         	case 6:
         	{
         	    foodCoeff = .5;
+        	    foodPriceCoeff = 1.5;
         	    break;
         	}
         	case 7:
         	{
         	    foodCoeff = 2;
         	    furCoeff = 2;
+        	    foodPriceCoeff = .5;
+        	    furPriceCoeff = .5;
         	    break;
         	}
         	case 8:
         	{
         	    furCoeff = 0;
         	    foodCoeff = 0;
+        	    furPriceCoeff = 2;
+        	    foodPriceCoeff = 2;
         	    break;
         	}
         	case 9:
         	{
         	    narcoticsCoeff = 2;
+        	    narcoticsPriceCoeff = .5;
         	    break;
         	}
         	case 10:
         	{
         	    foodCoeff = 1.5;
         	    narcoticsCoeff = 1.5;
+        	    foodPriceCoeff = .75;
+        	    narcoticsPriceCoeff = .75;
         	    break;
         	}
         	default:
         	    break;
 	}
-	marketPlace.put("Water", new Good(30 * waterCoeff, 100));
-	marketPlace.put("Furs", new Good(250 * furCoeff, 100));
-	marketPlace.put("Food", new Good(100 * foodCoeff, 100));
-	marketPlace.put("Ore", new Good(350 * oreCoeff, 100));
-	marketPlace.put("Games", new Good(250 * gamesCoeff, 100));
-	marketPlace.put("Firearms", new Good(1250 * firearmsCoeff, 100));
-	marketPlace.put("Medicine", new Good(650 * medicineCoeff, 100));
-	marketPlace.put("Machines", new Good(900 * machinesCoeff, 100));
-	marketPlace.put("Narcotics", new Good(3500 * narcoticsCoeff, 100));
-	marketPlace.put("Robots", new Good(5000 * robotsCoeff, 100));
-	marketPlace.put("Fuel", new Good(10, 100));
-	s.setMarket(marketPlace);
+		marketPlace.put("Water", new Good(30 * waterPriceCoeff, (int) (100 * waterCoeff)));
+		marketPlace.put("Furs", new Good(250 * furPriceCoeff, (int) (100* furCoeff)));
+		marketPlace.put("Food", new Good(100 * foodPriceCoeff, (int) (100 * foodCoeff)));
+		marketPlace.put("Ore", new Good(350 * orePriceCoeff, (int) (100  * oreCoeff)));
+		marketPlace.put("Games", new Good(250 * gamesPriceCoeff, (int) (100 * gamesCoeff)));
+		marketPlace.put("Firearms", new Good(1250 * firearmsPriceCoeff, (int) (100 * firearmsCoeff)));
+		marketPlace.put("Medicine", new Good(650 * medicinePriceCoeff, (int) (100 * medicineCoeff)));
+		marketPlace.put("Machines", new Good(900 * machinesPriceCoeff, (int) (100 * machinesCoeff)));
+		marketPlace.put("Narcotics", new Good(3500 * narcoticsPriceCoeff, (int) (100 * narcoticsCoeff)));
+		marketPlace.put("Robots", new Good(5000 * robotsPriceCoeff, (int) (100 * robotsCoeff)));
+		marketPlace.put("Fuel", new Good(10, 100));
+		s.setMarket(marketPlace);
     }
 
     /**
@@ -349,7 +394,7 @@ public class Driver {
 	{
 	    if(s.equals(listOfSystems.get(i).getSystemName()))
 	    {
-		return listOfSystems.get(i);
+	    	return listOfSystems.get(i);
 	    }
 	}
 	return null;
@@ -361,7 +406,7 @@ public class Driver {
 	{
 	    if(p.compareTo(listOfSystems.get(i).getCoordinates()) == 0)
 	    {
-		return listOfSystems.get(i);
+	    	return listOfSystems.get(i);
 	    }
 	}
 		return null;
@@ -372,12 +417,12 @@ public class Driver {
     	return getByName(solarSystemListView.table_5.getSelection()[0].getText(0));
     }
     
-    public Point getCurrentLocation()
+    public static Point getCurrentLocation()
     {
     	return currentLocation;
     }
     
-    public double calculateDist(Point p)
+    public static double calculateDist(Point p)
     {
     	return Math.sqrt(Math.pow((p.getXcoord() - currentLocation.getXcoord()), 2.0)
 		    + Math.pow((p.getYcoord() - currentLocation.getYcoord()), 2.0));

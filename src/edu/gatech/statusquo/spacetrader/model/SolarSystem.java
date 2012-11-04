@@ -2,7 +2,9 @@ package edu.gatech.statusquo.spacetrader.model;
 
 import java.util.HashMap;
 
-public class SolarSystem {
+import edu.gatech.statusquo.spacetrader.driver.Driver;
+
+public class SolarSystem implements Comparable<SolarSystem> {
 
 	private  String systemName;
 	private int techLevel;
@@ -81,5 +83,10 @@ public class SolarSystem {
 	public void setMarketItem(String s, Good n) {
 		// TODO Auto-generated method stub
 		market.put(s, n);
+	}
+
+	@Override
+	public int compareTo(SolarSystem s) {
+		return this.systemName.compareTo(s.getSystemName());
 	}
 }

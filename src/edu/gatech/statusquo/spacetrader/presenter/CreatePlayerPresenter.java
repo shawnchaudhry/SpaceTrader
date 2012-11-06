@@ -1,5 +1,7 @@
 package edu.gatech.statusquo.spacetrader.presenter;
 
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 import org.eclipse.swt.events.KeyEvent;
@@ -179,7 +181,7 @@ public class CreatePlayerPresenter {
 					JOptionPane.showMessageDialog(null,
 							"You have not assigned all of your skill points",
 							"Unused Skill Points", 2);
-				} else if (Player.getName().equals("")) {
+				} else if (driver.player.getName().equals("")) {
 					JOptionPane.showMessageDialog(null,
 							"Please enter a player name.");
 				} else if(calculatePoints() < 0) {
@@ -190,7 +192,12 @@ public class CreatePlayerPresenter {
 					player.setPilotSkills(Integer.parseInt(createPlayerView.pilotSpinner.getText()));
 					player.setFighterSkills(Integer.parseInt(createPlayerView.fighterSpinner.getText()));
 					createPlayerView.shell.dispose();
-					driver.generateMainGame();
+					try {
+						driver.generateUniverse();
+					} catch (IOException io) {
+						// TODO Auto-generated catch block
+						io.printStackTrace();
+					}
 				}
 			}
 		});

@@ -1,18 +1,23 @@
 package edu.gatech.statusquo.spacetrader.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import edu.gatech.statusquo.spacetrader.model.Ship.ShipType;
 
-public class Player {
+public class Player implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Ship ship;
-	private static String name;
-	private static double currency;
-	private static int trader;
-	private static int engineer;
-	private static int pilot;
-	private static int fighter;
+	private String name;
+	private double currency;
+	private int trader;
+	private int engineer;
+	private int pilot;
+	private int fighter;
 	private HashMap<String, Integer> cargo;
 	private static double fuel;
 
@@ -20,7 +25,7 @@ public class Player {
 		ship = new Ship(ShipType.GNAT);
 		fuel = 200;
 		name = "Player";
-		currency = 100000000;
+		currency = 1000;
 		trader = 0;
 		engineer = 0;
 		pilot = 0;
@@ -61,7 +66,7 @@ public class Player {
 	 * 
 	 * @return an integer that is the amount of currency.
 	 */
-	public static double getCurrency() {
+	public double getCurrency() {
 		return currency;
 	}
 
@@ -79,7 +84,7 @@ public class Player {
 	 * 
 	 * @return String that contains the player's name.
 	 */
-	public static String getName() {
+	public String getName() {
 		return name;
 	}
 
@@ -109,19 +114,19 @@ public class Player {
 		fighter = i;
 	}
 	
-	public static int getTraderSkills() {
+	public int getTraderSkills() {
 		return trader;
 	}
 	
-	public static int getEngineerSkills() {
+	public int getEngineerSkills() {
 		return engineer;
 	}
 	
-	public static int getPilotSkills() {
+	public int getPilotSkills() {
 		return pilot;
 	}
 	
-	public static int getFighterSkills() {
+	public int getFighterSkills() {
 		return fighter;
 	}
 
@@ -130,7 +135,8 @@ public class Player {
 	}
 
 	public void insertCargo(String s, Integer i) {
-	    	cargo.put(s, i);
+		int prevAmt = cargo.get(s);
+		cargo.put(s, prevAmt + i);
 	}
 
 	public int cargoSize() {
@@ -147,11 +153,11 @@ public class Player {
 	    return size;
 	}
 
-	public static double getFuel() {
+	public double getFuel() {
 		return fuel;
 	}
 	
-	public static void setFuel(double d)
+	public void setFuel(double d)
 	{
 		fuel = d;
 	}

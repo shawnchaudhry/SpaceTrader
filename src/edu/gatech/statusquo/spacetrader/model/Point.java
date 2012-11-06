@@ -1,7 +1,13 @@
 package edu.gatech.statusquo.spacetrader.model;
 
-public class Point implements Comparable<Point> {
-    private int xcoord;
+import java.io.Serializable;
+
+public class Point implements Comparable<Point>, Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int xcoord;
     private int ycoord;
     
     public Point(int x, int y)

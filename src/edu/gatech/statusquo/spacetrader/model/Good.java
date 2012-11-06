@@ -1,10 +1,24 @@
 package edu.gatech.statusquo.spacetrader.model;
 
-public class Good {
-    private double price;
-    private int quantity;
+import java.io.Serializable;
 
-    public int getQuantity() {
+public class Good implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+    private int quantity;
+    private double price;
+    
+    public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
 	return quantity;
     }
 
@@ -21,27 +35,7 @@ public class Good {
      *            - legality
      */
     public Good(double p, int qty) {
+    price = p;
 	quantity = qty;
-	price = p;
-
-    }
-
-    /**
-     * Gets the price
-     * 
-     * @return int price
-     */
-    public double getPrice() {
-	return price;
-    }
-
-    /**
-     * Sets the price
-     * 
-     * @param price
-     *            - sets the price of the good.
-     */
-    public void setPrice(int price) {
-	this.price = price;
     }
 }

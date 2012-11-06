@@ -14,5 +14,27 @@ public class TeamStatisticsPresenter {
 		this.shell = s;
 		this.driver = d;
 		this.teamStatisticsView = tsv;
+		setTable();
+	}
+	
+	public void setTable()
+	{
+		teamStatisticsView.lblTeamStatistics.setText("Team Statistics");
+
+		teamStatisticsView.tblclmnAttribute_1.setText("Attribute");
+
+		teamStatisticsView.tblclmnPoints.setText("Points");
+
+		String[] traderArray = { "Trader", Integer.toString(driver.player.getTraderSkills()) };
+		teamStatisticsView.tableItem_1.setText(traderArray);
+
+		String[] engineerArray = { "Engineer", Integer.toString(driver.player.getEngineerSkills()) };
+		teamStatisticsView.tableItem_2.setText(engineerArray);
+
+		String[] pilotArray = { "Pilot", Integer.toString(driver.player.getPilotSkills()) };
+		teamStatisticsView.tableItem_3.setText(pilotArray);
+
+		String[] fighterArray = { "Fighter", Integer.toString(driver.player.getFighterSkills()) };
+		teamStatisticsView.tableItem_4.setText(fighterArray);
 	}
 }

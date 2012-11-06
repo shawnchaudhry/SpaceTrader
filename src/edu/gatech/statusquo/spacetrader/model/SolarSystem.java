@@ -1,11 +1,14 @@
 package edu.gatech.statusquo.spacetrader.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-import edu.gatech.statusquo.spacetrader.driver.Driver;
+public class SolarSystem implements Comparable<SolarSystem>, Serializable {
 
-public class SolarSystem implements Comparable<SolarSystem> {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private  String systemName;
 	private int techLevel;
 	private int resourceLevel;

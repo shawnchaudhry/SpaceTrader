@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import edu.gatech.statusquo.spacetrader.driver.*;
 import edu.gatech.statusquo.spacetrader.model.Good;
-import edu.gatech.statusquo.spacetrader.model.Player;
 import edu.gatech.statusquo.spacetrader.model.SolarSystem;
 import edu.gatech.statusquo.spacetrader.view.*;
 
@@ -44,90 +43,122 @@ public class TradeGoodsPresenter {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				try {
-					if (Player.getCurrency() < (Integer
-							.parseInt(tradeGoodsView.text.getText()) * Double
-							.parseDouble(tradeGoodsView.table_1.getSelection()[0]
-									.getText(1)))) {
-						driver.notificationsView.list_1
-								.add("Sorry, you do not have enough currency to make this purchase");
-						driver.notificationsView.list_1
-								.select(driver.notificationsView.list_1
-										.getItemCount() - 1);
-						driver.notificationsView.list_1.showSelection();
-					} else if ((Integer.parseInt(tradeGoodsView.text.getText()) > Integer
-							.parseInt(tradeGoodsView.table_1.getSelection()[0]
-									.getText(3)))) {
-						driver.notificationsView.list_1
-								.add("Sorry, there is not enough of this item in the market.");
-						driver.notificationsView.list_1
-								.select(driver.notificationsView.list_1
-										.getItemCount() - 1);
-						driver.notificationsView.list_1.showSelection();
-					} else if (driver.player.getShip().capacity < (Integer
-							.parseInt(tradeGoodsView.text.getText()))
-							|| driver.player.cargoSize() >= Integer
-									.parseInt(tradeGoodsView.text.getText())) {
-						driver.notificationsView.list_1
-								.add("Sorry there is not enough space in your cargo");
-					} else {
-						driver.player.setCurrency(Player.getCurrency()
-								- (Integer.parseInt(tradeGoodsView.text
-										.getText()) * Double
-										.parseDouble(tradeGoodsView.table_1
-												.getSelection()[0].getText(1))));
-						driver.player.insertCargo(tradeGoodsView.table_1
-								.getSelection()[0].getText(0), Integer
-								.parseInt(tradeGoodsView.text.getText()));
-						tradeGoodsView.table_1.getSelection()[0]
-								.setText(2, Integer.toString(driver.player
-										.getCargo().get(
-												tradeGoodsView.table_1
-														.getSelection()[0]
-														.getText(0))));
-						int previousAmt = Integer
+					if (tradeGoodsView.table_1.getSelection()[0].getText(0)
+							.equals("Fuel")) {
+						if (driver.player.getCurrency() < (Integer
+								.parseInt(tradeGoodsView.text.getText()) * Double
+								.parseDouble(tradeGoodsView.table_1
+										.getSelection()[0].getText(1)))) {
+							driver.notificationsPresenter
+									.addToList("Sorry, you do not have enough currency to make this purchase");
+						} else if ((Integer.parseInt(tradeGoodsView.text
+								.getText()) > Integer
 								.parseInt(tradeGoodsView.table_1.getSelection()[0]
-										.getText(3));
-						tradeGoodsView.table_1.getSelection()[0].setText(
-								3,
-								Integer.toString(previousAmt
-										- Integer.parseInt(tradeGoodsView.text
-												.getText())));
-						driver.getByCoordinate(Driver.getCurrentLocation())
-								.getMarket()
-								.put((tradeGoodsView.table_1.getSelection()[0]
-										.getText(0)),
-										driver.getByCoordinate(
-												Driver.getCurrentLocation())
-												.getMarket()
-												.get((tradeGoodsView.table_1
-														.getSelection()[0]
-														.getText(0))));
-						driver.getByCoordinate(Driver.getCurrentLocation())
-								.setMarketItem(
-										tradeGoodsView.table_1.getSelection()[0]
-												.getText(0),
-										new Good(
-												Double.parseDouble(tradeGoodsView.table_1
-														.getSelection()[0]
-														.getText(1)) * 1.5,
-														previousAmt
-														- Integer
-																.parseInt(tradeGoodsView.text
-																		.getText())));
-						tradeGoodsView.table_1
-								.getSelection()[0].setText(1, Double.toString(driver
-								.getByCoordinate(Driver.getCurrentLocation())
-								.getMarket().get(tradeGoodsView.table_1
-										.getSelection()[0].getText(0)).getPrice()));
+										.getText(3)))) {
+							driver.notificationsPresenter
+									.addToList("Sorry, there is not enough of this item in the market.");
+						} else {
+							driver.player.setCurrency(driver.player.getCurrency()
+									- (Integer.parseInt(tradeGoodsView.text
+											.getText()) * Double
+											.parseDouble(tradeGoodsView.table_1
+													.getSelection()[0]
+													.getText(1))));
+							double currentFuel = driver.player.getFuel();
+							int previousAmt = driver
+									.getByCoordinate(
+											Driver.getCurrentLocation())
+									.getMarket().get("Fuel").getQuantity();
+							driver.player.setFuel(currentFuel
+									+ Double.parseDouble(tradeGoodsView.text
+											.getText()));
+							driver.getByCoordinate(Driver.getCurrentLocation())
+									.setMarketItem(
+											"Fuel",
+											new Good(
+													Double.parseDouble(tradeGoodsView.table_1
+															.getSelection()[0]
+															.getText(1)),
+													previousAmt
+															- Integer
+																	.parseInt(tradeGoodsView.text
+																			.getText())));
+							setTable(driver.getByCoordinate(
+									Driver.getCurrentLocation()).getMarket());
+							driver.vitalsPresenter.setTable();
+						}
+					} else {
+						int prevAmount = driver.player.getCargo().get(
+								tradeGoodsView.table_1.getSelection()[0]
+										.getText(0));
+						driver.player.getCargo().put(
+								tradeGoodsView.table_1.getSelection()[0]
+										.getText(0),
+								prevAmount
+										+ Integer.parseInt(tradeGoodsView.text
+												.getText()));
+						if (driver.player.getCurrency() < (Integer
+								.parseInt(tradeGoodsView.text.getText()) * Double
+								.parseDouble(tradeGoodsView.table_1
+										.getSelection()[0].getText(1)))) {
+							driver.notificationsPresenter
+									.addToList("Sorry, you do not have enough currency to make this purchase");
+						} else if ((Integer.parseInt(tradeGoodsView.text
+								.getText()) > Integer
+								.parseInt(tradeGoodsView.table_1.getSelection()[0]
+										.getText(3)))) {
+							driver.notificationsPresenter
+									.addToList("Sorry, there is not enough of this item in the market.");
+						} else if (driver.player.cargoSize() > driver.player
+								.getShip().capacity) {
+							driver.player.getCargo().put(
+									tradeGoodsView.table_1.getSelection()[0]
+											.getText(0), prevAmount);
+							driver.notificationsPresenter
+									.addToList("Sorry there is not enough space in your cargo");
+						} else {
+							/*
+							 * Sets the player's currency after purchase.
+							 */
+							driver.player.setCurrency(driver.player.getCurrency()
+									- (Integer.parseInt(tradeGoodsView.text
+											.getText()) * Double
+											.parseDouble(tradeGoodsView.table_1
+													.getSelection()[0]
+													.getText(1))));
+							/*
+							 * Updates the view.
+							 */
+							int previousAmt = driver
+									.getByCoordinate(
+											Driver.getCurrentLocation())
+									.getMarket()
+									.get(tradeGoodsView.table_1.getSelection()[0]
+											.getText(0)).getQuantity();
+							driver.getByCoordinate(Driver.getCurrentLocation())
+									.setMarketItem(
+											tradeGoodsView.table_1
+													.getSelection()[0]
+													.getText(0),
+											new Good(
+													Double.parseDouble(tradeGoodsView.table_1
+															.getSelection()[0]
+															.getText(1)),
+													previousAmt
+															- Integer
+																	.parseInt(tradeGoodsView.text
+																			.getText())));
+							setTable(driver.getByCoordinate(
+									Driver.getCurrentLocation()).getMarket());
+							driver.vitalsPresenter.setTable();
+						}
 					}
 				} catch (NumberFormatException f) {
-					driver.notificationsView.list_1
-							.add("Sorry, incorrect input detected.");
-					driver.notificationsView.list_1.showSelection();
+					driver.notificationsPresenter
+							.addToList("Sorry, incorrect input detected");
 				} catch (ArrayIndexOutOfBoundsException a) {
-					driver.notificationsView.list_1
-							.add("Sorry, please select something from the market.");
-					driver.notificationsView.list_1.showSelection();
+					driver.notificationsPresenter
+							.addToList("Sorry, please select something from the market.");
 				}
 			}
 		});
@@ -135,9 +166,96 @@ public class TradeGoodsPresenter {
 		tradeGoodsView.btnSell.addMouseListener(new MouseAdapter() {
 			public void mouseUp(MouseEvent e) {
 				try {
-
+					if ((Integer.parseInt(tradeGoodsView.text_1.getText()) > driver.player
+							.getCargo().get(
+									tradeGoodsView.table_1.getSelection()[0]
+											.getText(0)))
+							|| ((Integer.parseInt(tradeGoodsView.text_1
+									.getText()) > driver.player.getFuel()) && tradeGoodsView.table_1
+									.getSelection()[0].getText(0)
+									.equals("Fuel"))) {
+						driver.notificationsPresenter
+								.addToList("Sorry you do not have enough of this item to sell");
+						setTable(driver.getByCoordinate(
+								Driver.getCurrentLocation()).getMarket());
+					} else {
+						if (tradeGoodsView.table_1.getSelection()[0].getText(0)
+								.equals("Fuel")) {
+							double previousAmt = driver.player.getFuel();
+							driver.player.setFuel(previousAmt
+									- Integer.parseInt(tradeGoodsView.text_1
+											.getText()));
+							driver.getByCoordinate(Driver.getCurrentLocation())
+									.getMarket()
+									.put("Fuel",
+											new Good(
+													Double.parseDouble(tradeGoodsView.table_1
+															.getSelection()[0]
+															.getText(1)),
+													Integer.parseInt(tradeGoodsView.table_1
+															.getSelection()[0]
+															.getText(3))
+															+ Integer
+																	.parseInt(tradeGoodsView.text_1
+																			.getText())));
+							double previousAmtOfCurrency = driver.player.getCurrency();
+							driver.player.setCurrency(previousAmtOfCurrency
+									+ (Integer.parseInt(tradeGoodsView.text_1
+											.getText()) * Integer
+											.parseInt(tradeGoodsView.table_1
+													.getSelection()[0]
+													.getText(3))));
+							driver.vitalsPresenter.setTable();
+						} else {
+							int amountToSell = Integer
+									.parseInt(tradeGoodsView.text_1.getText());
+							double price = Double
+									.parseDouble(tradeGoodsView.table_1
+											.getSelection()[0].getText(1));
+							double currentCurrency = driver.player.getCurrency();
+							int previousAmt = driver
+									.getByCoordinate(
+											Driver.getCurrentLocation())
+									.getMarket()
+									.get(tradeGoodsView.table_1.getSelection()[0]
+											.getText(0)).getQuantity();
+							driver.player.setCurrency(currentCurrency
+									+ (amountToSell * price));
+							driver.getByCoordinate(Driver.getCurrentLocation())
+									.setMarketItem(
+											tradeGoodsView.table_1
+													.getSelection()[0]
+													.getText(0),
+											new Good(
+													Double.parseDouble(tradeGoodsView.table_1
+															.getSelection()[0]
+															.getText(1)),
+													previousAmt
+															+ Integer
+																	.parseInt(tradeGoodsView.text_1
+																			.getText())));
+							int amountOfItem = driver.player.getCargo().get(
+									tradeGoodsView.table_1.getSelection()[0]
+											.getText(0));
+							driver.player
+									.getCargo()
+									.put(tradeGoodsView.table_1.getSelection()[0]
+											.getText(0),
+											amountOfItem
+													- Integer
+															.parseInt(tradeGoodsView.text_1
+																	.getText()));
+							driver.vitalsPresenter.setTable();
+							setTable(driver.getByCoordinate(
+									Driver.getCurrentLocation()).getMarket());
+						}
+					}
 				} catch (NumberFormatException n) {
-
+					driver.notificationsPresenter
+							.addToList("Sorry, incorrect input detected");
+				} catch (ArrayIndexOutOfBoundsException a) {
+					driver.notificationsPresenter
+							.addToList("Sorry, please select something from the market.");
 				}
 			}
 		});
@@ -198,16 +316,15 @@ public class TradeGoodsPresenter {
 				Integer.toString(driver.player.getCargo().get("Robots")),
 				Integer.toString(market.get("Robots").getQuantity()) };
 		tradeGoodsView.robotsItem.setText(robots);
-		
+
 		String[] fuel = { "Fuel",
 				Double.toString(market.get("Fuel").getPrice()),
-				Double.toString(Player.getFuel()),
+				Double.toString(driver.player.getFuel()),
 				Integer.toString(market.get("Fuel").getQuantity()) };
 		tradeGoodsView.fuelItem.setText(fuel);
-		}
+	}
 
 	public void updateMarketView(SolarSystem selected) {
-		// TODO Auto-generated method stub
 		market = selected.getMarket();
 		setTable(market);
 	}

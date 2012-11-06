@@ -13,12 +13,13 @@ public class TeamStatisticsView {
 	Player player;
 	Shell shell;
 	Table table;
-	TableColumn tblclmnAttribute_1;
-	TableColumn tblclmnPoints;
-	TableItem tableItem_1;
-	TableItem tableItem_2;
-	TableItem tableItem_3;
-	TableItem tableItem_4;
+	public TableColumn tblclmnAttribute_1;
+	public TableColumn tblclmnPoints;
+	public TableItem tableItem_1;
+	public TableItem tableItem_2;
+	public TableItem tableItem_3;
+	public TableItem tableItem_4;
+	public Label lblTeamStatistics;
 	
 	public TeamStatisticsView (Shell s, Player p) {
 		this.shell = s;
@@ -39,30 +40,16 @@ public class TeamStatisticsView {
 	}
 	
 	public void createView() {
-		Label lblTeamStatistics = new Label(shell, SWT.NONE);
+		lblTeamStatistics = new Label(shell, SWT.NONE);
 		lblTeamStatistics.setBounds(53, 231, 94, 15);
-		lblTeamStatistics.setText("Team Statistics");
 
 		table.setBounds(0, 252, 190, 165);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
 		tblclmnAttribute_1.setWidth(85);
-		tblclmnAttribute_1.setText("Attribute");
 
 		tblclmnPoints.setWidth(100);
-		tblclmnPoints.setText("Points");
-
-		String[] traderArray = { "Trader", Integer.toString(Player.getTraderSkills()) };
-		tableItem_1.setText(traderArray);
-
-		String[] engineerArray = { "Engineer", Integer.toString(Player.getEngineerSkills()) };
-		tableItem_2.setText(engineerArray);
-
-		String[] pilotArray = { "Pilot", Integer.toString(Player.getPilotSkills()) };
-		tableItem_3.setText(pilotArray);
-
-		String[] fighterArray = { "Fighter", Integer.toString(Player.getFighterSkills()) };
-		tableItem_4.setText(fighterArray);
+		
 	}
 }

@@ -3,7 +3,6 @@ package edu.gatech.statusquo.spacetrader.presenter;
 import org.eclipse.swt.widgets.Shell;
 
 import edu.gatech.statusquo.spacetrader.driver.*;
-import edu.gatech.statusquo.spacetrader.model.Player;
 import edu.gatech.statusquo.spacetrader.view.*;
 
 public class NotificationsPresenter {
@@ -21,7 +20,7 @@ public class NotificationsPresenter {
 
 	private void createInput() {
 	    // TODO Auto-generated method stub
-	    notificationsView.list_1.add("Welcome to Space Trader " + Player.getName());
+	    notificationsView.list_1.add("Welcome to Space Trader " + driver.player.getName());
 	    notificationsView.list_1.add("You are currently in " + driver.getByCoordinate(Driver.getCurrentLocation()).getSystemName());
 	    notificationsView.list_1.add("You have enough fuel to travel 200 parsecs");
 	}
@@ -29,5 +28,9 @@ public class NotificationsPresenter {
 	public void addToList(String s)
 	{
 	    notificationsView.list_1.add(s);
+	    notificationsView.list_1
+		.select(notificationsView.list_1
+				.getItemCount() - 1);
+	    notificationsView.list_1.showSelection();
 	}
 }

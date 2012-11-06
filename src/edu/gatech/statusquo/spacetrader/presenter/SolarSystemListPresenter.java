@@ -7,7 +7,6 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 
 import edu.gatech.statusquo.spacetrader.driver.*;
-import edu.gatech.statusquo.spacetrader.model.Player;
 import edu.gatech.statusquo.spacetrader.model.SolarSystem;
 import edu.gatech.statusquo.spacetrader.view.*;
 
@@ -43,14 +42,14 @@ public class SolarSystemListPresenter {
 		@Override
 		public void mouseUp(MouseEvent e) 
 		{
-			if(Player.getFuel() < Double.parseDouble(solarSystemListView.table_5.getSelection()[0].getText(1)))
+			if(driver.player.getFuel() < Double.parseDouble(solarSystemListView.table_5.getSelection()[0].getText(1)))
 			{
 				driver.notificationsPresenter.addToList("Sorry, you do not have enough fuel");
 			}
 			else
 			{
-				double currentFuel = Player.getFuel();
-				Player.setFuel(currentFuel - Double.parseDouble(solarSystemListView.table_5.getSelection()[0].getText(1)));
+				double currentFuel = driver.player.getFuel();
+				driver.player.setFuel(currentFuel - Double.parseDouble(solarSystemListView.table_5.getSelection()[0].getText(1)));
 			    driver.vitalsPresenter.setTable();
 				selected = driver.getByName(solarSystemListView.table_5.getSelection()[0].getText(0));
 			    driver.tradeGoodsPresenter.updateMarketView(selected);

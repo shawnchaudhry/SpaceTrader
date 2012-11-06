@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import org.eclipse.swt.widgets.Shell;
 
 import edu.gatech.statusquo.spacetrader.driver.*;
-import edu.gatech.statusquo.spacetrader.model.Player;
 import edu.gatech.statusquo.spacetrader.view.*;
 
 public class VitalsPresenter {
@@ -23,7 +22,7 @@ public class VitalsPresenter {
 	public void setTable() {
 		// TODO Auto-generated method stub
 		DecimalFormat df = new DecimalFormat("#.##");
-		String[] vitals = {df.format(Player.getCurrency()), Double.toString(Player.getFuel())};
+		String[] vitals = {df.format(driver.player.getCurrency()), Double.toString(driver.player.getFuel())};
 		vitalsView.tableItem.setText(vitals);
 	}
 }

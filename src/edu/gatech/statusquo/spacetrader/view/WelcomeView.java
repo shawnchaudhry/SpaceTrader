@@ -7,12 +7,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class WelcomeView {
-	//figure out why shawn wanted these protected. Ask TA/Waters if it is ok to have everything public to communicate
 	public Shell shell;
 	public Display display;
-	public Button btnStartGame; //= new Button(shell, SWT.NONE);
-	public Button btnLoadGame; //= new Button(shell, SWT.NONE);
-	public Label lblWelcomeToSpace; //= new Label(shell, SWT.NONE);
+	public Button btnStartGame; 
+	public Button btnLoadGame;
+	public Label lblWelcomeToSpace;
 	
 	public WelcomeView() {
 		display = Display.getDefault();
@@ -20,12 +19,9 @@ public class WelcomeView {
 		btnStartGame = new Button(shell, SWT.NONE);
 		btnLoadGame = new Button(shell, SWT.NONE);
 		lblWelcomeToSpace = new Label(shell, SWT.NONE);
-		
-		try {
-			createView();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		createView();
+		shell.open();
+		shell.layout();
 	}
 
 	/**

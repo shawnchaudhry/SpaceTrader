@@ -1,6 +1,13 @@
 package edu.gatech.statusquo.spacetrader.presenter;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
+import edu.gatech.statusquo.spacetrader.model.Player;
+import edu.gatech.statusquo.spacetrader.model.Point;
+import edu.gatech.statusquo.spacetrader.model.SolarSystem;
 import edu.gatech.statusquo.spacetrader.view.*;
 import edu.gatech.statusquo.spacetrader.driver.*;
 
@@ -8,43 +15,54 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
 public class WelcomePresenter {
-	private WelcomeView welcomeView;
-	private Driver driver;
-	
+	WelcomeView welcomeView;
+	Driver driver;
+
 	public WelcomePresenter(Driver d, WelcomeView wv) {
 		this.driver = d;
 		this.welcomeView = wv;
-		
 		setListeners();
-		
 		while (!welcomeView.shell.isDisposed()) {
 			if (!welcomeView.display.readAndDispatch()) {
 				welcomeView.display.sleep();
 			}
 		}
 	}
-	
+
 	private void setListeners() {
 		welcomeView.btnStartGame.addMouseListener(new MouseAdapter() {
-			@Override
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.swt.events.MouseAdapter#mouseDown(org.eclipse.swt
-			 * .events.MouseEvent) So this is where the mousedown event happens.
-			 * Notice I set the visibility of all the parts of the first window
-			 * to false, and then I ran the method that would create the
-			 * CharacterCreationScreen in the same shell. -Shawn
-			 */
 			public void mouseDown(MouseEvent e) {
-				welcomeView.btnStartGame.setVisible(false);
-				welcomeView.btnLoadGame.setVisible(false);
-				welcomeView.lblWelcomeToSpace.setVisible(false);
-				// need to return to driver to signify need to create next view
-				//createCharacterCreationScreen();
-				welcomeView.shell.dispose();
+				welcomeView.display.dispose();
 				driver.generateCreatePlayer();
+			}
+		});
+
+		welcomeView.btnLoadGame.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void mouseDown(MouseEvent e) {
+
+				try {
+					welcomeView.shell.dispose();
+					FileInputStream inStream;
+					ObjectInputStream objectInputFile;
+					inStream = new FileInputStream("spaceTrader.dat");
+					objectInputFile = new ObjectInputStream(inStream);
+					driver.player = (Player) objectInputFile.readObject();
+					System.out.println(driver.player.getTraderSkills());
+					Driver.listOfSystems = (ArrayList<SolarSystem>) objectInputFile
+							.readObject();
+					Driver.currentLocation = (Point) objectInputFile
+							.readObject();
+					objectInputFile.close();
+					driver.generateMainGame();
+				} catch (IOException io) {
+					// TODO Auto-generated catch block
+					io.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}

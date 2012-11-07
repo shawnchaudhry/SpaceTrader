@@ -19,10 +19,13 @@ public class ItemsWonView {
 	public Display display;
 	private Text text;
 	private Text text_1;
-
+	public Button btnNewButton;
+	public Button btnPutBack;
+	TableItem[] tableItems;
+	
 	public ItemsWonView()
 	{
-		Display display = Display.getDefault();
+		display = Display.getDefault();
 		createContents();
 		shell.open();
 		shell.layout();
@@ -57,7 +60,7 @@ public class ItemsWonView {
 		tblclmnPersonalAmount.setWidth(100);
 		tblclmnPersonalAmount.setText("Personal Amount");
 		
-		Button btnNewButton = new Button(shell, SWT.NONE);
+		btnNewButton = new Button(shell, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -72,11 +75,10 @@ public class ItemsWonView {
 		text_1 = new Text(shell, SWT.BORDER);
 		text_1.setBounds(257, 220, 85, 33);
 		
-		Button btnPutBack = new Button(shell, SWT.NONE);
+		btnPutBack = new Button(shell, SWT.NONE);
 		btnPutBack.setBounds(344, 218, 94, 35);
 		btnPutBack.setText("Put Back");
 		
-		TableItem[] tableItems;
 
 	}
 }

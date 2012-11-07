@@ -6,6 +6,7 @@ import java.util.Random;
 
 import edu.gatech.statusquo.spacetrader.model.Good;
 import edu.gatech.statusquo.spacetrader.presenter.ItemsWonPresenter;
+import edu.gatech.statusquo.spacetrader.view.ItemsWonView;
 
 public class RandomEvent {
 	Driver driver;
@@ -34,7 +35,8 @@ public class RandomEvent {
 				}
 			}
 			if (wonItems.size() > 0){
-				ItemsWonPresenter itemsWonPresenter = new ItemsWonPresenter(driver, wonItems);
+				ItemsWonView itemsWonView = new ItemsWonView();
+				ItemsWonPresenter itemsWonPresenter = new ItemsWonPresenter(driver, itemsWonView, wonItems);
 			}
 			return driver.player.getCargo();
 		} else if (driver.getSkills().get(3) == n) {

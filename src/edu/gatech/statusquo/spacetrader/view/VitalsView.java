@@ -22,6 +22,7 @@ public class VitalsView {
 	public Table table_3;
 	TableColumn tblclmnCargo;
 	TableColumn tblclmnWeight_1;
+	public TableItem[] tableItems;
 	
 	public VitalsView(Shell s, Player p) {
 		this.shell = s;
@@ -35,6 +36,14 @@ public class VitalsView {
 		table_3 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
 		tblclmnCargo = new TableColumn(table_3, SWT.CENTER);
 		tblclmnWeight_1 = new TableColumn(table_3, SWT.CENTER);
+		
+		tableItems = new TableItem[player.getCargo().size()];
+		for (int i = 0; i < tableItems.length; i++)
+		{
+		    tableItems[i] = new TableItem(table_3, SWT.NONE);
+		}
+		
+		table_3.setSelection(0);
 		
 		try {
 			createView();

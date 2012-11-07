@@ -1,6 +1,7 @@
 package edu.gatech.statusquo.spacetrader.presenter;
 
 import java.text.DecimalFormat;
+import java.util.Random;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -26,12 +27,12 @@ public class SolarSystemListPresenter {
 	}
 	
 	public void setTable() {
-		Driver.sortSolarSystemListSort();
-	    for (int i = 0; i < Driver.listOfSystems.size(); i++)
+		driver.sortSolarSystemListSort();
+	    for (int i = 0; i < driver.listOfSystems.size(); i++)
 	    {
-			double distance = Driver.calculateDist(Driver.listOfSystems.get(i).getCoordinates());
+			double distance = driver.calculateDist(driver.listOfSystems.get(i).getCoordinates());
 			DecimalFormat df = new DecimalFormat("#.##");
-			String[] nameAndDist = {Driver.listOfSystems.get(i).getSystemName(), df.format(distance)};
+			String[] nameAndDist = {driver.listOfSystems.get(i).getSystemName(), df.format(distance)};
 			solarSystemListView.tableItems[i].setText(nameAndDist);
 	    }
 	}
@@ -48,13 +49,19 @@ public class SolarSystemListPresenter {
 			}
 			else
 			{
+				Random rand = new Random();
+				int n = rand.nextInt(3);
+				if (n == 3)
+				{
+					RandomEvent randomEvent = new RandomEvent(driver);
+				}
 				double currentFuel = driver.player.getFuel();
 				driver.player.setFuel(currentFuel - Double.parseDouble(solarSystemListView.table_5.getSelection()[0].getText(1)));
 			    driver.vitalsPresenter.setTable();
 				selected = driver.getByName(solarSystemListView.table_5.getSelection()[0].getText(0));
 			    driver.tradeGoodsPresenter.updateMarketView(selected);
-			    Driver.currentLocation = selected.getCoordinates();
-			    Driver.sortSolarSystemListSort();
+			    driver.currentLocation = selected.getCoordinates();
+			    driver.sortSolarSystemListSort();
 			    setTable();
 			    driver.notificationsPresenter.addToList("You have arrived at " + selected.getSystemName());
 			}

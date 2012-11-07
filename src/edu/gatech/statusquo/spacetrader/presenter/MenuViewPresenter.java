@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Shell;
@@ -39,7 +42,20 @@ public class MenuViewPresenter {
 		menuView.mntmNewGame.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				shell.close();
+				int n = JOptionPane.showConfirmDialog(
+					    null,
+					    "Are you sure you want to quit?",
+					    "New Game",
+					    JOptionPane.YES_NO_OPTION);
+				if(n == 0)
+				{
+					shell.close();
+					driver.generateCreatePlayer();
+				}
+				else if (n == 1)
+				{
+					
+				}
 			}
 		});
 		menuView.mntmSaveGame.setText("Save Game");
@@ -54,8 +70,8 @@ public class MenuViewPresenter {
 					objectOutputFile = new ObjectOutputStream(
 							outStream);
 					objectOutputFile.writeObject(driver.player);
-					objectOutputFile.writeObject(Driver.listOfSystems);
-					objectOutputFile.writeObject(Driver.currentLocation);
+					objectOutputFile.writeObject(driver.listOfSystems);
+					objectOutputFile.writeObject(driver.currentLocation);
 					objectOutputFile.close();
 				} catch (IOException io) {
 					// TODO Auto-generated catch block
@@ -79,9 +95,9 @@ public class MenuViewPresenter {
 							.readObject();
 					System.out.println(p.getTraderSkills());
 					driver.player = p;
-					Driver.listOfSystems = (ArrayList<SolarSystem>) objectInputFile
+					driver.listOfSystems = (ArrayList<SolarSystem>) objectInputFile
 							.readObject();
-					Driver.currentLocation = (Point) objectInputFile
+					driver.currentLocation = (Point) objectInputFile
 							.readObject();
 					objectInputFile.close();
 					driver.solarSystemListPresenter.setTable();

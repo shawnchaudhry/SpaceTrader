@@ -1,5 +1,6 @@
 package edu.gatech.statusquo.spacetrader.presenter;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -15,11 +16,13 @@ public class TradeGoodsPresenter {
 	Driver driver;
 	TradeGoodsView tradeGoodsView;
 	HashMap<String, Good> market;
+	DecimalFormat df;
 
 	public TradeGoodsPresenter(Shell s, Driver d, TradeGoodsView tgv) {
 		this.shell = s;
 		this.driver = d;
 		this.tradeGoodsView = tgv;
+		df = new DecimalFormat("#.##");
 		setListeners();
 		market = driver.retrieveSelectedSolarSystem().getMarket();
 		setTable(market);
@@ -67,12 +70,12 @@ public class TradeGoodsPresenter {
 							double currentFuel = driver.player.getFuel();
 							int previousAmt = driver
 									.getByCoordinate(
-											Driver.getCurrentLocation())
+											driver.getCurrentLocation())
 									.getMarket().get("Fuel").getQuantity();
 							driver.player.setFuel(currentFuel
 									+ Double.parseDouble(tradeGoodsView.text
 											.getText()));
-							driver.getByCoordinate(Driver.getCurrentLocation())
+							driver.getByCoordinate(driver.getCurrentLocation())
 									.setMarketItem(
 											"Fuel",
 											new Good(
@@ -84,7 +87,7 @@ public class TradeGoodsPresenter {
 																	.parseInt(tradeGoodsView.text
 																			.getText())));
 							setTable(driver.getByCoordinate(
-									Driver.getCurrentLocation()).getMarket());
+									driver.getCurrentLocation()).getMarket());
 							driver.vitalsPresenter.setTable();
 						}
 					} else {
@@ -131,11 +134,11 @@ public class TradeGoodsPresenter {
 							 */
 							int previousAmt = driver
 									.getByCoordinate(
-											Driver.getCurrentLocation())
+											driver.getCurrentLocation())
 									.getMarket()
 									.get(tradeGoodsView.table_1.getSelection()[0]
 											.getText(0)).getQuantity();
-							driver.getByCoordinate(Driver.getCurrentLocation())
+							driver.getByCoordinate(driver.getCurrentLocation())
 									.setMarketItem(
 											tradeGoodsView.table_1
 													.getSelection()[0]
@@ -149,7 +152,7 @@ public class TradeGoodsPresenter {
 																	.parseInt(tradeGoodsView.text
 																			.getText())));
 							setTable(driver.getByCoordinate(
-									Driver.getCurrentLocation()).getMarket());
+									driver.getCurrentLocation()).getMarket());
 							driver.vitalsPresenter.setTable();
 						}
 					}
@@ -177,7 +180,7 @@ public class TradeGoodsPresenter {
 						driver.notificationsPresenter
 								.addToList("Sorry you do not have enough of this item to sell");
 						setTable(driver.getByCoordinate(
-								Driver.getCurrentLocation()).getMarket());
+								driver.getCurrentLocation()).getMarket());
 					} else {
 						if (tradeGoodsView.table_1.getSelection()[0].getText(0)
 								.equals("Fuel")) {
@@ -185,7 +188,7 @@ public class TradeGoodsPresenter {
 							driver.player.setFuel(previousAmt
 									- Integer.parseInt(tradeGoodsView.text_1
 											.getText()));
-							driver.getByCoordinate(Driver.getCurrentLocation())
+							driver.getByCoordinate(driver.getCurrentLocation())
 									.getMarket()
 									.put("Fuel",
 											new Good(
@@ -215,13 +218,13 @@ public class TradeGoodsPresenter {
 							double currentCurrency = driver.player.getCurrency();
 							int previousAmt = driver
 									.getByCoordinate(
-											Driver.getCurrentLocation())
+											driver.getCurrentLocation())
 									.getMarket()
 									.get(tradeGoodsView.table_1.getSelection()[0]
 											.getText(0)).getQuantity();
 							driver.player.setCurrency(currentCurrency
 									+ (amountToSell * price));
-							driver.getByCoordinate(Driver.getCurrentLocation())
+							driver.getByCoordinate(driver.getCurrentLocation())
 									.setMarketItem(
 											tradeGoodsView.table_1
 													.getSelection()[0]
@@ -247,7 +250,7 @@ public class TradeGoodsPresenter {
 																	.getText()));
 							driver.vitalsPresenter.setTable();
 							setTable(driver.getByCoordinate(
-									Driver.getCurrentLocation()).getMarket());
+									driver.getCurrentLocation()).getMarket());
 						}
 					}
 				} catch (NumberFormatException n) {
@@ -319,7 +322,7 @@ public class TradeGoodsPresenter {
 
 		String[] fuel = { "Fuel",
 				Double.toString(market.get("Fuel").getPrice()),
-				Double.toString(driver.player.getFuel()),
+				df.format(driver.player.getFuel()),
 				Integer.toString(market.get("Fuel").getQuantity()) };
 		tradeGoodsView.fuelItem.setText(fuel);
 	}

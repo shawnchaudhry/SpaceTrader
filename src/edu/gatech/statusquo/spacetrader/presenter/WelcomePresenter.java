@@ -50,9 +50,9 @@ public class WelcomePresenter {
 					objectInputFile = new ObjectInputStream(inStream);
 					driver.player = (Player) objectInputFile.readObject();
 					System.out.println(driver.player.getTraderSkills());
-					Driver.listOfSystems = (ArrayList<SolarSystem>) objectInputFile
+					driver.listOfSystems = (ArrayList<SolarSystem>) objectInputFile
 							.readObject();
-					Driver.currentLocation = (Point) objectInputFile
+					driver.currentLocation = (Point) objectInputFile
 							.readObject();
 					objectInputFile.close();
 					driver.generateMainGame();

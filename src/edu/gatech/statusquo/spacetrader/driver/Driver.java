@@ -27,7 +27,7 @@ public class Driver {
 	public ArrayList<Point> xAndYCoordinates;
 	public ArrayList<String> listOfNames;
 	public HashMap<String, Good> marketPlace;
-	public static Point currentLocation;
+	public Point currentLocation;
 	public ShipStatisticsView shipStatisticsView;
 	public TeamStatisticsView teamStatisticsView;
 	public SolarSystemListView solarSystemListView;
@@ -46,8 +46,8 @@ public class Driver {
 	public MenuView menuView;
 	public MenuViewPresenter menuViewPresenter;
 
-	public static ArrayList<SolarSystem> listOfSystems;
-	public static WelcomePresenter welcomeViewPresenter;
+	public ArrayList<SolarSystem> listOfSystems;
+	public WelcomePresenter welcomeViewPresenter;
 
 	public Driver() throws IOException {
 		WelcomeView welcomeView = new WelcomeView();
@@ -75,7 +75,7 @@ public class Driver {
 		teamStatisticsPresenter = new TeamStatisticsPresenter(shell, this,
 				teamStatisticsView);
 
-		solarSystemListView = new SolarSystemListView(shell);
+		solarSystemListView = new SolarSystemListView(shell, this);
 		solarSystemListPresenter = new SolarSystemListPresenter(shell, this,
 				solarSystemListView);
 
@@ -134,8 +134,8 @@ public class Driver {
 		generateMainGame();
 	}
 
-	public static void sortSolarSystemListSort() {
-		Collections.sort(listOfSystems, new SolarSystemComparator());
+	public void sortSolarSystemListSort() {
+		Collections.sort(listOfSystems, new SolarSystemComparator(this));
 	}
 
 	public void generateMarket(SolarSystem s) {
@@ -398,11 +398,11 @@ public class Driver {
 				.getText(0));
 	}
 
-	public static Point getCurrentLocation() {
+	public Point getCurrentLocation() {
 		return currentLocation;
 	}
 
-	public static double calculateDist(Point p) {
+	public double calculateDist(Point p) {
 		return Math.sqrt(Math.pow(
 				(p.getXcoord() - currentLocation.getXcoord()), 2.0)
 				+ Math.pow((p.getYcoord() - currentLocation.getYcoord()), 2.0));

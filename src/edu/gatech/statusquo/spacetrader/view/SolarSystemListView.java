@@ -12,13 +12,15 @@ import edu.gatech.statusquo.spacetrader.driver.Driver;
 
 public class SolarSystemListView {
 	Shell shell;
+	Driver driver;
 	Label lblNewLabel;
 	public Button btnTravel;
 	public Table table_5;
 	public TableItem[] tableItems;
 	
-	public SolarSystemListView(Shell s) {
+	public SolarSystemListView(Shell s, Driver d) {
 		this.shell = s;
+		this.driver = d;
 		lblNewLabel = new Label(shell, SWT.NONE);
 		btnTravel = new Button(shell, SWT.NONE);
 		table_5 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
@@ -32,7 +34,7 @@ public class SolarSystemListView {
 		tblclmnDistance.setWidth(90);
 		tblclmnDistance.setText("Distance");
 		
-		tableItems = new TableItem[Driver.listOfSystems.size()];
+		tableItems = new TableItem[driver.listOfSystems.size()];
 		for (int i = 0; i < tableItems.length; i++)
 		{
 		    tableItems[i] = new TableItem(table_5, SWT.NONE);

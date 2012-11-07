@@ -21,7 +21,7 @@ public class NotificationsPresenter {
 	private void createInput() {
 	    // TODO Auto-generated method stub
 	    notificationsView.list_1.add("Welcome to Space Trader " + driver.player.getName());
-	    notificationsView.list_1.add("You are currently in " + driver.getByCoordinate(Driver.getCurrentLocation()).getSystemName());
+	    notificationsView.list_1.add("You are currently in " + driver.getByCoordinate(driver.getCurrentLocation()).getSystemName());
 	    notificationsView.list_1.add("You have enough fuel to travel 200 parsecs");
 	}
 	

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
-import edu.gatech.statusquo.spacetrader.model.Good;
 import edu.gatech.statusquo.spacetrader.presenter.ItemsWonPresenter;
 import edu.gatech.statusquo.spacetrader.view.ItemsWonView;
 
@@ -49,7 +48,7 @@ public class RandomEvent {
 			}
 			if (wonItems.size() > 0){
 				ItemsWonView itemsWonView = new ItemsWonView(wonItems);
-				ItemsWonPresenter itemsWonPresenter = new ItemsWonPresenter(driver, itemsWonView, wonItems);
+				new ItemsWonPresenter(driver, itemsWonView, wonItems);
 			}
 			return driver.player.getCargo();
 		} else if (driver.player.getFighterSkills() == n) {
@@ -59,7 +58,6 @@ public class RandomEvent {
 		} else {
 			driver.notificationsPresenter
 					.addToList("After a tough battle with some pirates, you barely make it out alive, and the pirates have managed to take off with some of your cargo!");
-			System.out.println(driver.player.getFighterSkills());
 			while (it.hasNext()) {
 				String item = it.next();
 				boolean remove = rand.nextBoolean();

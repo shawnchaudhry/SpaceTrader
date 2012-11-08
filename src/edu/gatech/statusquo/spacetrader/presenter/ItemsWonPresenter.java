@@ -67,10 +67,15 @@ public class ItemsWonPresenter {
 					driver.player.insertCargo(itemName, takeAmt);
 					if (driver.player.cargoSize() > driver.player.getShip().capacity)
 					{
-						driver.player.insertCargo(itemName, personalQty);
+						driver.player.getCargo().put(itemName, personalQty);
 						JOptionPane.showMessageDialog(null, "Sorry, there is not enough room in your cargo!");
 					}
+					else
+					{
+						wonItems.put(itemName, lootQty - takeAmt);
+					}
 				}
+				setTable();
 			}
 		});
 		
@@ -81,10 +86,16 @@ public class ItemsWonPresenter {
 				int lootQty = Integer.parseInt(itemsWonView.table.getSelection()[0].getText(1));
 				int personalQty = Integer.parseInt(itemsWonView.table.getSelection()[0].getText(2));
 				int putAmt = Integer.parseInt(itemsWonView.text_1.getText());
-				if(putAmt > lootQty)
+				if(putAmt > personalQty)
 				{
-					JOptionPane.showMessageDialog(null, "Sorry there wasn't enough of this item to take");
+					JOptionPane.showMessageDialog(null, "Sorry there wasn't enough of this item to put");
 				}
+				else
+				{
+					wonItems.put(itemName, lootQty + putAmt);
+					driver.player.getCargo().put(itemName, personalQty - putAmt);
+				}
+				setTable();
 			}
 		});
 	}

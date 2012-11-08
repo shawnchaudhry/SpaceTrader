@@ -59,7 +59,7 @@ public class SolarSystemListPresenter {
 				int n = rand.nextInt(3);
 				if (n == 2)
 				{
-					RandomEvent randomEvent = new RandomEvent(driver);
+					new RandomEvent(driver);
 				}
 				double currentFuel = driver.player.getFuel();
 				driver.player.setFuel(currentFuel - Double.parseDouble(solarSystemListView.table_5.getSelection()[0].getText(1)));

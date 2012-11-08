@@ -1,5 +1,7 @@
 package edu.gatech.statusquo.spacetrader.view;
 
+import java.util.HashMap;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
@@ -9,26 +11,26 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 public class ItemsWonView {
 
 	public Shell shell;
 	public Table table;
 	public Display display;
-	private Text text;
-	private Text text_1;
+	public Text text;
+	public Text text_1;
 	public Button btnNewButton;
 	public Button btnPutBack;
-	TableItem[] tableItems;
+	public TableItem[] tableItems;
+	HashMap<String, Integer> wonItems;
 	
-	public ItemsWonView()
+	public ItemsWonView(HashMap<String, Integer> wI)
 	{
-		display = Display.getDefault();
+		wonItems = wI;
 		createContents();
 		shell.open();
 		shell.layout();
+		display = Display.getDefault();
 	}
 
 	/**
@@ -61,11 +63,6 @@ public class ItemsWonView {
 		tblclmnPersonalAmount.setText("Personal Amount");
 		
 		btnNewButton = new Button(shell, SWT.NONE);
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
 		btnNewButton.setBounds(104, 218, 103, 35);
 		btnNewButton.setText("Take Amount");
 		
@@ -76,9 +73,15 @@ public class ItemsWonView {
 		text_1.setBounds(257, 220, 85, 33);
 		
 		btnPutBack = new Button(shell, SWT.NONE);
+		
 		btnPutBack.setBounds(344, 218, 94, 35);
 		btnPutBack.setText("Put Back");
 		
-
+		tableItems = new TableItem[wonItems.size()];
+		for (int i = 0; i < tableItems.length; i++)
+		{
+		    tableItems[i] = new TableItem(table, SWT.NONE);
+		}
+		table.setSelection(0);
 	}
 }

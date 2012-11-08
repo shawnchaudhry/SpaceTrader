@@ -28,7 +28,10 @@ public class WelcomePresenter {
 			}
 		}
 	}
-
+	
+	/**
+	 * Sets the listeners for the welcome presenter.
+	 */
 	private void setListeners() {
 		welcomeView.btnStartGame.addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {

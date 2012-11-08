@@ -33,6 +33,9 @@ public class Point implements Comparable<Point>, Serializable {
     }
 
     @Override
+    /**
+     * Compares to points.
+     */
     public int compareTo(Point other) {
 	if(this.xcoord == other.xcoord && this.ycoord == other.ycoord)
 	{

@@ -26,6 +26,9 @@ public class SolarSystemListPresenter {
 		selected = driver.getByName(solarSystemListView.table_5.getItem(0).getText());
 	}
 	
+	/**
+	 * Sets the table on the solar system list.
+	 */
 	public void setTable() {
 		driver.sortSolarSystemListSort();
 	    for (int i = 0; i < driver.listOfSystems.size(); i++)
@@ -36,7 +39,10 @@ public class SolarSystemListPresenter {
 			solarSystemListView.tableItems[i].setText(nameAndDist);
 	    }
 	}
-
+	
+	/**
+	 * Sets the solar system listeners.
+	 */
 	public void setListeners()
 	{
 	    solarSystemListView.btnTravel.addMouseListener(new MouseAdapter() {
@@ -51,7 +57,7 @@ public class SolarSystemListPresenter {
 			{
 				Random rand = new Random();
 				int n = rand.nextInt(3);
-				if (n == 3)
+				if (n == 2)
 				{
 					RandomEvent randomEvent = new RandomEvent(driver);
 				}

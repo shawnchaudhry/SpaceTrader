@@ -18,12 +18,25 @@ public class RandomEvent {
 		driver = d;
 		rand = new Random();
 		it = driver.player.getCargo().keySet().iterator();
+		int n = rand.nextInt(2);
+		if (n == 1)
+		{
+			piratesEncounter();
+		}
+		else
+		{
+			policeEncounter();
+		}
 	}
 
+	/**
+	 * This control's a pirate encounter
+	 * @return a hashmap that contains the cargo.
+	 */
 	public HashMap<String, Integer> piratesEncounter() {
 		wonItems = new HashMap<String, Integer>();
 		int n = rand.nextInt(15);
-		if (driver.getSkills().get(3) > n) {
+		if (driver.player.getFighterSkills() > n) {
 			driver.notificationsPresenter
 					.addToList("After a tough battle with some pirates, you win some loot!");
 			while (it.hasNext()) {
@@ -35,17 +48,18 @@ public class RandomEvent {
 				}
 			}
 			if (wonItems.size() > 0){
-				ItemsWonView itemsWonView = new ItemsWonView();
+				ItemsWonView itemsWonView = new ItemsWonView(wonItems);
 				ItemsWonPresenter itemsWonPresenter = new ItemsWonPresenter(driver, itemsWonView, wonItems);
 			}
 			return driver.player.getCargo();
-		} else if (driver.getSkills().get(3) == n) {
+		} else if (driver.player.getFighterSkills() == n) {
 			driver.notificationsPresenter
 					.addToList("After a tough battle with some pirates, you managed to make it out unharmed!");
 			return driver.player.getCargo();
 		} else {
 			driver.notificationsPresenter
 					.addToList("After a tough battle with some pirates, you barely make it out alive, and the pirates have managed to take off with some of your cargo!");
+			System.out.println(driver.player.getFighterSkills());
 			while (it.hasNext()) {
 				String item = it.next();
 				boolean remove = rand.nextBoolean();
@@ -62,20 +76,24 @@ public class RandomEvent {
 			return driver.player.getCargo();
 		}
 	}
-
+	
+	/**
+	 * This is a police encounter.
+	 * @return Hashmap that contains the cargo.
+	 */
 	public HashMap<String, Integer> policeEncounter() {
 		int n = rand.nextInt(15);
-		if (driver.getSkills().get(2) > n) {
+		if (driver.player.getPilotSkills() > n) {
 			driver.notificationsPresenter
 					.addToList("Nice job! You outran the police!");
 			return driver.player.getCargo();
-		} else if (driver.getSkills().get(2) == n) {
+		} else if (driver.player.getPilotSkills() == n) {
 			driver.notificationsPresenter
-					.addToList("After a tough battle with some pirates, you managed to make it out unharmed!");
+					.addToList("The police checked your cargo, but luckily you didnt have to pay anything!");
 			return driver.player.getCargo();
 		} else {
 			driver.notificationsPresenter
-					.addToList("After a tough battle with some pirates, you barely make it out alive, and the pirates have managed to take off with some of your cargo!");
+					.addToList("The police are on your case! They have taken some of your stuff!");
 			while (it.hasNext()) {
 				String item = it.next();
 				boolean remove = rand.nextBoolean();

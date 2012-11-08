@@ -17,6 +17,9 @@ public class TeamStatisticsPresenter {
 		setTable();
 	}
 	
+	/**
+	 * Sets the table with the statistics.
+	 */
 	public void setTable()
 	{
 		teamStatisticsView.lblTeamStatistics.setText("Team Statistics");

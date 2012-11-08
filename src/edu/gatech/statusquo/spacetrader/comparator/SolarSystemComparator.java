@@ -11,6 +11,9 @@ public class SolarSystemComparator implements Comparator<SolarSystem> {
 	public SolarSystemComparator(Driver d){
 		this.driver = d;
 	}
+	/**
+	 * Compares the two solar systems.
+	 */
 	@Override
 	public int compare(SolarSystem s1, SolarSystem s2)
 	{

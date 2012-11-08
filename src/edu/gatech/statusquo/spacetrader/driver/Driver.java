@@ -54,6 +54,9 @@ public class Driver {
 		welcomeViewPresenter = new WelcomePresenter(this, welcomeView);
 	}
 
+	/**
+	 * Generates a player.
+	 */
 	public void generateCreatePlayer() {
 		player = new Player();
 		CreatePlayerView createPlayerView = new CreatePlayerView();
@@ -61,6 +64,9 @@ public class Driver {
 				createPlayerView, player);
 	}
 
+	/**
+	 * Generates the main game.
+	 */
 	public void generateMainGame() {
 		display = Display.getDefault();
 		shell = new Shell(display, SWT.TITLE | SWT.CLOSE);
@@ -134,10 +140,17 @@ public class Driver {
 		generateMainGame();
 	}
 
+	/**
+	 * Sorts the solar system list with a custom comparator.
+	 */
 	public void sortSolarSystemListSort() {
 		Collections.sort(listOfSystems, new SolarSystemComparator(this));
 	}
-
+	
+	/**
+	 * Generates a market.
+	 * @param s the solar system to generate a market for.
+	 */
 	public void generateMarket(SolarSystem s) {
 		marketPlace = new HashMap<String, Good>();
 		double waterCoeff = 1;
@@ -374,7 +387,12 @@ public class Driver {
 		listOfNames = chosenNames;
 		s.close();
 	}
-
+	
+	/**
+	 * Gets the solar system by name.
+	 * @param s - the solar system string name.
+	 * @return the solar system object.
+	 */
 	public SolarSystem getByName(String s) {
 		for (int i = 0; i < listOfSystems.size(); i++) {
 			if (s.equals(listOfSystems.get(i).getSystemName())) {
@@ -383,7 +401,12 @@ public class Driver {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Get the solar system by coordinate.
+	 * @param p the point.
+	 * @return the solar system.
+	 */
 	public SolarSystem getByCoordinate(Point p) {
 		for (int i = 0; i < listOfSystems.size(); i++) {
 			if (p.compareTo(listOfSystems.get(i).getCoordinates()) == 0) {
@@ -392,16 +415,29 @@ public class Driver {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Get the solar system that is selected in the menu.
+	 * @return the solar system that is selected in the menu.
+	 */
 	public SolarSystem retrieveSelectedSolarSystem() {
 		return getByName(solarSystemListView.table_5.getSelection()[0]
 				.getText(0));
 	}
-
+	
+	/**
+	 * Gets the current location
+	 * @return the point at the current location.
+	 */
 	public Point getCurrentLocation() {
 		return currentLocation;
 	}
-
+	
+	/**
+	 * Calculate's the distance from a point to the current location.
+	 * @param p the point.
+	 * @return a double that is the distance.
+	 */
 	public double calculateDist(Point p) {
 		return Math.sqrt(Math.pow(
 				(p.getXcoord() - currentLocation.getXcoord()), 2.0)

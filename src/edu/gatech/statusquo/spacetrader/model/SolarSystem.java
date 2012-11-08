@@ -82,7 +82,12 @@ public class SolarSystem implements Comparable<SolarSystem>, Serializable {
 	{
 	    return location;
 	}
-
+	
+	/**
+	 * Sets a particular item in the market.
+	 * @param s - the name of the item.
+	 * @param n - the Good to set.
+	 */
 	public void setMarketItem(String s, Good n) {
 		// TODO Auto-generated method stub
 		market.put(s, n);

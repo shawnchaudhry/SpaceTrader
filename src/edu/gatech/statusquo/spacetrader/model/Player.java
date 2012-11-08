@@ -98,10 +98,18 @@ public class Player implements Serializable {
 		name = nm;
 	}
 	
+	/**
+	 * Sets the trader skill points.
+	 * @param i the integer of the skill points.
+	 */
 	public void setTraderSkills(int i) {
 		trader = i;
 	}
 	
+	/**
+	 * Sets the engineer skill points.
+	 * @param i the integer of the engineer's skill points.
+	 */
 	public void setEngineerSkills(int i) {
 		engineer = i;
 	}
@@ -129,16 +137,29 @@ public class Player implements Serializable {
 	public int getFighterSkills() {
 		return fighter;
 	}
-
+	
+	/**
+	 * returns the player's cargo.
+	 * @return the player's cargo.
+	 */
 	public HashMap<String, Integer> getCargo() {
 	    return cargo;
 	}
 
+	/**
+	 * Inserts into the cargo a particular item.
+	 * @param s - the item name.
+	 * @param i - the item amount;
+	 */
 	public void insertCargo(String s, Integer i) {
 		int prevAmt = cargo.get(s);
 		cargo.put(s, prevAmt + i);
 	}
-
+	
+	/**
+	 * returns the player's cargo size.
+	 * @return int that is the player's cargo size.
+	 */
 	public int cargoSize() {
 	    int size = 0;
 		size += cargo.get("Water");
@@ -152,11 +173,19 @@ public class Player implements Serializable {
 		size += cargo.get("Robots");
 	    return size;
 	}
-
+	
+	/**
+	 * Returns the amount of fuel.
+	 * @return the amount of fuel.
+	 */
 	public double getFuel() {
 		return fuel;
 	}
 	
+	/**
+	 * Sets the amount of fuel.
+	 * @param d - the amount of fuel.
+	 */
 	public void setFuel(double d)
 	{
 		fuel = d;

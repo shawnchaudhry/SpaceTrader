@@ -18,7 +18,10 @@ public class VitalsPresenter {
 		this.vitalsView = vv;
 		setTable();
 	}
-
+	
+	/**
+	 * Sets the table with the vitals.
+	 */
 	public void setTable() {
 		DecimalFormat df = new DecimalFormat("#.##");
 		String[] vitals = {df.format(driver.player.getCurrency()), df.format(driver.player.getFuel())};

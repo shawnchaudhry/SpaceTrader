@@ -27,7 +27,10 @@ public class TradeGoodsPresenter {
 		market = driver.retrieveSelectedSolarSystem().getMarket();
 		setTable(market);
 	}
-
+	
+	/**
+	 * Sets the listeners.
+	 */
 	public void setListeners() {
 		tradeGoodsView.text_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -264,7 +267,11 @@ public class TradeGoodsPresenter {
 		});
 
 	}
-
+	
+	/**
+	 * Sets the table.
+	 * @param market HashMap that contains the market.
+	 */
 	public void setTable(HashMap<String, Good> market) {
 
 		String[] water = { "Water",
@@ -327,6 +334,10 @@ public class TradeGoodsPresenter {
 		tradeGoodsView.fuelItem.setText(fuel);
 	}
 
+	/**
+	 * Updates the market with the selected solarSystem.
+	 * @param selected the selected solar system.
+	 */
 	public void updateMarketView(SolarSystem selected) {
 		market = selected.getMarket();
 		setTable(market);

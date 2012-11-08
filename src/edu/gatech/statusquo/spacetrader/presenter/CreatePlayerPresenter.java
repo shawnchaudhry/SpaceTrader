@@ -264,7 +264,9 @@ public class CreatePlayerPresenter {
 			createPlayerView.setPointsAvailableLabel(Integer.toString(calculatePoints()));
 		}
 	}
-	
+	/**
+	 * Sets the spinners.
+	 */
 	private void setSpinners() {
 		createPlayerView.traderSpinner.setEnabled(status);
 		createPlayerView.engineerSpinner.setEnabled(status);
@@ -273,7 +275,10 @@ public class CreatePlayerPresenter {
 		checkValidityOfPoints();
 		status = canAddMorePoints();
 	}
-	
+	/**
+	 * Gets all the points available.
+	 * @return the points available to spend.
+	 */
 	public int getPointsAvailable() {
 		return pointsAvailable;
 	}
